@@ -2,7 +2,7 @@
 # todo:
 # - static library
 #
-Summary:	LUKS for dm-crypt is implemented in cryptsetup
+Summary:	LUKS for dm-crypt implemented in cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0
 Release:	0.2
