@@ -22,15 +22,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sbindir	/sbin
 
 %description
-LUKS is the upcoming standard for Linux hard disk encryption. By providing
-a standard on-disk-format, it does not only facilitate compatibility among
-distributions, but also provide secure management of multiple user
-passwords. In contrast to existing solution, LUKS stores all setup
-necessary setup information in the partition header, enabling the user to
-transport or migrate his data seamlessly.
+LUKS is the upcoming standard for Linux hard disk encryption. By
+providing a standard on-disk-format, it does not only facilitate
+compatibility among distributions, but also provide secure management
+of multiple user passwords. In contrast to existing solution, LUKS
+stores all setup necessary setup information in the partition header,
+enabling the user to transport or migrate his data seamlessly.
 
-This package contains implementation of LUKS for dm-crypt implemented in
-cryptsetup.
+This package contains implementation of LUKS for dm-crypt implemented
+in cryptsetup.
 
 %package devel
 Summary:	Header files for cryptsetup library
