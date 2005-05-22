@@ -3,6 +3,7 @@
 # - static library
 #
 Summary:	LUKS for dm-crypt implemented in cryptsetup
+Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0
 Release:	0.2
@@ -15,8 +16,8 @@ BuildRequires:	device-mapper-devel
 BuildRequires:	libgcrypt-devel >= 1.1.42
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel
-Obsoletes:	cryptsetup
 Provides:	cryptsetup
+Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -32,6 +33,18 @@ enabling the user to transport or migrate his data seamlessly.
 This package contains implementation of LUKS for dm-crypt implemented
 in cryptsetup.
 
+%description -l pl
+LUKS to nadchodz±cy standard linuksowego szyfrowania twardego dysku.
+Dostarczaj±c standardowy format danych na dysku nie tylko u³atwia
+utrzymanie kompatybilno¶ci miêdzy dystrybucjami, ale tak¿e dostarcza
+bezpieczne zarz±dzanie wieloma has³ami u¿ytkowników. W przeciwieñstwie
+do istniej±cego rozwi±zania LUKS przechowuje wszystkie potrzebne
+informacje o konfiguracji w nag³ówku partycji, pozwalaj±c
+u¿ytkownikowi przenosiæ lub migrowaæ dane w sposób przezroczysty.
+
+Ten pakiet zawiera implementacjê LUKS dla dm-crytpa zaimplementowan± w
+cryptsetup.
+
 %package devel
 Summary:	Header files for cryptsetup library
 Summary(pl):	Pliki nag³ówkowe biblioteki cryptsetup
@@ -39,8 +52,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel
 Requires:	libgcrypt-devel >= 1.1.42
-Obsoletes:	cryptsetup-devel
 Provides:	cryptsetup-devel
+Obsoletes:	cryptsetup-devel
 
 %description devel
 Header files for cryptsetup library.
@@ -100,6 +113,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libcryptsetup.la
 %{_includedir}/*.h
 
-%files static
-%defattr(644,root,root,755)
+#%files static
+#%defattr(644,root,root,755)
 #%{_libdir}/libcryptsetup.a
