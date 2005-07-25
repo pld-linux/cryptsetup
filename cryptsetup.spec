@@ -1,21 +1,19 @@
-#
-# todo:
-# - static library
-#
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.0
-Release:	0.2
+Version:	1.0.1
+Release:	0.1
 License:	GPL
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
-# Source0-md5:	62c4bff081e470fb2c9a0f2cb890e613
+# Source0-md5:	b2415f67ceed3ad2c7dd2e878cf7787d
 URL:		http://luks.endorphin.org/about
-BuildRequires:	device-mapper-devel
-BuildRequires:	libgcrypt-devel >= 1.1.42
-BuildRequires:	libuuid-devel
-BuildRequires:	popt-devel
+BuildRequires:	device-mapper-static
+BuildRequires:	libgcrypt-static >= 1.1.42
+BuildRequires:	libgpg-error-static
+BuildRequires:	libselinux-static
+BuildRequires:	libuuid-static
+BuildRequires:	popt-static
 Provides:	cryptsetup
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -77,8 +75,8 @@ Statyczna wersja biblioteki cryptsetup.
 %setup -q
 
 %build
-%configure
-#	--enable-static
+%configure \
+	--enable-static
 %{__make}
 
 %install
@@ -113,6 +111,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libcryptsetup.la
 %{_includedir}/*.h
 
-#%files static
-#%defattr(644,root,root,755)
-#%{_libdir}/libcryptsetup.a
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libcryptsetup.a
