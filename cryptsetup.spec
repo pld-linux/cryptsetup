@@ -9,7 +9,10 @@ Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
 # Source0-md5:	b2415f67ceed3ad2c7dd2e878cf7787d
 Patch0:		%{name}-sepol.patch
 URL:		http://luks.endorphin.org/about
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	device-mapper-static
+BuildRequires:	gettext-devel
 BuildRequires:	libgcrypt-static >= 1.1.42
 BuildRequires:	libgpg-error-static
 BuildRequires:	libselinux-static
@@ -80,8 +83,8 @@ Statyczna wersja biblioteki cryptsetup.
 %patch0 -p1
 
 %build
-%{__autoheader}
 %{__gettextize}
+%{__autoheader}
 %{__aclocal} -I m4
 %{__autoconf}
 %{__automake}
