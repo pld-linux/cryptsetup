@@ -16,7 +16,7 @@ BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
-Provides:	cryptsetup
+Provides:	cryptsetup = 0.2-1.pre1.8
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,6 +66,8 @@ Summary:	Static cryptsetup library
 Summary(pl):	Statyczna biblioteka cryptsetup
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Provides:	cryptsetup-static
+Obsoletes:	cryptsetup-static
 
 %description static
 Static version of cryptsetup library.
