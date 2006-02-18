@@ -1,0 +1,10 @@
+--- cryptsetup-luks-1.0.1.orig/configure.in	2006-02-18 00:07:42.000000000 +0100
++++ cryptsetup-luks-1.0.1.new/configure.in	2006-02-18 02:47:54.000000000 +0100
+@@ -96,6 +96,7 @@
+                           [[default=auto]]],auto,[
+ 	have_module=yes
+ 	saved_LIBS="$LIBS"
++	AC_CHECK_LIB(sepol, sepol_debug)
+ 	AC_CHECK_LIB(selinux, is_selinux_enabled)
+ 	AC_CHECK_LIB(devmapper, dm_task_set_name,,unset have_module)
+ 	AC_CHECK_HEADER(libdevmapper.h,,unset have_module=)
