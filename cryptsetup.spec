@@ -2,7 +2,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
@@ -11,7 +11,7 @@ Patch0:		%{name}-sepol.patch
 URL:		http://luks.endorphin.org/about
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	device-mapper-static
+BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	gettext-devel
 BuildRequires:	libgcrypt-static >= 1.1.42
 BuildRequires:	libgpg-error-static
