@@ -1,0 +1,17 @@
+--- cryptsetup-luks-1.0.3/configure.in.orig	2006-08-22 22:59:13.083565000 +0200
++++ cryptsetup-luks-1.0.3/configure.in	2006-08-22 23:11:52.943053250 +0200
+@@ -110,8 +110,12 @@
+ 
+ dnl ==========================================================================
+ 
+-AM_CONDITIONAL(STATIC_CRYPTSETUP, test x$enable_static = xyes)
+-AM_CONDITIONAL(DYNAMIC_CRYPTSETUP, test x$enable_static = xno)
++AC_ARG_ENABLE(static-cryptsetup,
++[  --enable-static-cryptsetup  link cryptsetup statically [[default=no]]],
++[enable_static_cryptsetup=$enableval],[enable_static_cryptsetup=no])
++
++AM_CONDITIONAL(STATIC_CRYPTSETUP, test x$enable_static_cryptsetup = xyes)
++AM_CONDITIONAL(DYNAMIC_CRYPTSETUP, test x$enable_static_cryptsetup = xno)
+ 
+ dnl ==========================================================================
+ 
