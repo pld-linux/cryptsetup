@@ -1,3 +1,7 @@
+#
+# Conditonal build:
+%bcond_with	static	# link cryptsetup statically
+#
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
@@ -8,17 +12,20 @@ Group:		Base
 Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
 # Source0-md5:	e134b82b4706a28ba1d73b9176d5ad0c
 Patch0:		%{name}-sepol.patch
+Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/about
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	gettext-devel
+%if %{with static}
+BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
 BuildRequires:	libgpg-error-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
+%endif
 Provides:	cryptsetup = 0.2-1.pre1.8
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -81,6 +88,7 @@ Statyczna wersja biblioteki cryptsetup.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__gettextize}
@@ -89,7 +97,8 @@ Statyczna wersja biblioteki cryptsetup.
 %{__autoconf}
 %{__automake}
 %configure \
-	--enable-static
+	--enable-static \
+	%{?with_static:--enable-static-cryptsetup}
 %{__make}
 
 %install
