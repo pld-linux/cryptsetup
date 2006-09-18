@@ -16,7 +16,13 @@ Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/about
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	device-mapper-devel
 BuildRequires:	gettext-devel
+BuildRequires:	libgcrypt-devel >= 1.1.42
+BuildRequires:	libselinux-devel
+BuildRequires:	libsepol-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	popt-devel
 %if %{with static}
 BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
