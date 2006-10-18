@@ -5,13 +5,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.0.3
+Version:	1.0.4
 Release:	1
 License:	GPL
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
-# Source0-md5:	e134b82b4706a28ba1d73b9176d5ad0c
-Patch0:		%{name}-sepol.patch
+# Source0-md5:	156ae6b618438ee9feeddc6c2bdc4e94
 Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/about
 BuildRequires:	autoconf
@@ -23,6 +22,7 @@ BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel
+BuildRequires:	libtool
 %if %{with static}
 BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
@@ -93,7 +93,6 @@ Statyczna wersja biblioteki cryptsetup.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 
 %build
