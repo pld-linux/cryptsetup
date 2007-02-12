@@ -3,7 +3,7 @@
 %bcond_with	static	# link cryptsetup statically
 #
 Summary:	LUKS for dm-crypt implemented in cryptsetup
-Summary(pl.UTF-8):   LUKS dla dm-crypta zaimplementowany w cryptsetup
+Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.4
 Release:	1
@@ -63,7 +63,7 @@ cryptsetup.
 
 %package devel
 Summary:	Header files for cryptsetup library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki cryptsetup
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel
@@ -79,7 +79,7 @@ Pliki nagłówkowe biblioteki cryptsetup.
 
 %package static
 Summary:	Static cryptsetup library
-Summary(pl.UTF-8):   Statyczna biblioteka cryptsetup
+Summary(pl.UTF-8):	Statyczna biblioteka cryptsetup
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	cryptsetup-static
