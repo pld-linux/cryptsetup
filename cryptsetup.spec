@@ -3,7 +3,7 @@
 %bcond_with	static	# link cryptsetup statically
 #
 Summary:	LUKS for dm-crypt implemented in cryptsetup
-Summary(pl):	LUKS dla dm-crypta zaimplementowany w cryptsetup
+Summary(pl.UTF-8):   LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.4
 Release:	1
@@ -49,21 +49,21 @@ enabling the user to transport or migrate his data seamlessly.
 This package contains implementation of LUKS for dm-crypt implemented
 in cryptsetup.
 
-%description -l pl
-LUKS to nadchodz±cy standard linuksowego szyfrowania twardego dysku.
-Dostarczaj±c standardowy format danych na dysku nie tylko u³atwia
-utrzymanie kompatybilno¶ci miêdzy dystrybucjami, ale tak¿e dostarcza
-bezpieczne zarz±dzanie wieloma has³ami u¿ytkowników. W przeciwieñstwie
-do istniej±cego rozwi±zania LUKS przechowuje wszystkie potrzebne
-informacje o konfiguracji w nag³ówku partycji, pozwalaj±c
-u¿ytkownikowi przenosiæ lub migrowaæ dane w sposób przezroczysty.
+%description -l pl.UTF-8
+LUKS to nadchodzÄ…cy standard linuksowego szyfrowania twardego dysku.
+DostarczajÄ…c standardowy format danych na dysku nie tylko uÅ‚atwia
+utrzymanie kompatybilnoÅ›ci miÄ™dzy dystrybucjami, ale takÅ¼e dostarcza
+bezpieczne zarzÄ…dzanie wieloma hasÅ‚ami uÅ¼ytkownikÃ³w. W przeciwieÅ„stwie
+do istniejÄ…cego rozwiÄ…zania LUKS przechowuje wszystkie potrzebne
+informacje o konfiguracji w nagÅ‚Ã³wku partycji, pozwalajÄ…c
+uÅ¼ytkownikowi przenosiÄ‡ lub migrowaÄ‡ dane w sposÃ³b przezroczysty.
 
-Ten pakiet zawiera implementacjê LUKS dla dm-crytpa zaimplementowan± w
+Ten pakiet zawiera implementacjÄ™ LUKS dla dm-crytpa zaimplementowanÄ… w
 cryptsetup.
 
 %package devel
 Summary:	Header files for cryptsetup library
-Summary(pl):	Pliki nag³ówkowe biblioteki cryptsetup
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel
@@ -74,12 +74,12 @@ Obsoletes:	cryptsetup-devel
 %description devel
 Header files for cryptsetup library.
 
-%description devel -l pl
-Pliki nag³ówkowe biblioteki cryptsetup.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe biblioteki cryptsetup.
 
 %package static
 Summary:	Static cryptsetup library
-Summary(pl):	Statyczna biblioteka cryptsetup
+Summary(pl.UTF-8):   Statyczna biblioteka cryptsetup
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Provides:	cryptsetup-static
@@ -88,7 +88,7 @@ Obsoletes:	cryptsetup-static
 %description static
 Static version of cryptsetup library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna wersja biblioteki cryptsetup.
 
 %prep
