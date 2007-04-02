@@ -32,7 +32,6 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
-Provides:	cryptsetup = 0.2-1.pre1.8
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -68,7 +67,6 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel
 Requires:	libgcrypt-devel >= 1.1.42
-Provides:	cryptsetup-devel
 Obsoletes:	cryptsetup-devel
 
 %description devel
@@ -82,7 +80,6 @@ Summary:	Static cryptsetup library
 Summary(pl.UTF-8):	Statyczna biblioteka cryptsetup
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Provides:	cryptsetup-static
 Obsoletes:	cryptsetup-static
 
 %description static
