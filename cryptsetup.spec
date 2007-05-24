@@ -36,7 +36,7 @@ Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
-%define		_noautoreq	cryptsetup
+%define		_noautoreqdep	libcryptsetup.so.0
 
 %description
 LUKS is the upcoming standard for Linux hard disk encryption. By
