@@ -2,15 +2,16 @@
 # Conditonal build:
 %bcond_with	static	# link cryptsetup statically
 #
+%define	_realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.0.4
+Version:	1.0.5
 Release:	1
 License:	GPL
 Group:		Base
-Source0:	http://luks.endorphin.org/source/%{name}-%{version}.tar.bz2
-# Source0-md5:	156ae6b618438ee9feeddc6c2bdc4e94
+Source0:	http://luks.endorphin.org/source/%{_realname}-%{version}.tar.bz2
+# Source0-md5:	0aa2f94c39123f1a0352983e5366179c
 Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/about
 BuildRequires:	autoconf
@@ -90,7 +91,7 @@ Static version of cryptsetup library.
 Statyczna wersja biblioteki cryptsetup.
 
 %prep
-%setup -q
+%setup -q -n %{_realname}-%{version}
 %patch1 -p1
 
 %build
@@ -115,7 +116,7 @@ mv -f $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.*.*.* $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib}; echo libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
 
-%find_lang %{name}
+%find_lang %{_realname}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -123,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{name}.lang
+%files -f %{_realname}.lang
 %defattr(644,root,root,755)
 %doc ChangeLog
 %attr(755,root,root) %{_sbindir}/cryptsetup
