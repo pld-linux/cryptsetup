@@ -13,7 +13,7 @@ Group:		Base
 Source0:	http://luks.endorphin.org/source/%{_realname}-%{version}.tar.bz2
 # Source0-md5:	0aa2f94c39123f1a0352983e5366179c
 Patch1:		%{name}-nostatic.patch
-URL:		http://luks.endorphin.org/about
+URL:		http://luks.endorphin.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel
