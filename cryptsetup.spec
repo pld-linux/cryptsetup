@@ -7,7 +7,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{_realname}-%{version}.tar.bz2
@@ -21,9 +21,9 @@ BuildRequires:	gettext-devel
 BuildRequires:	libgcrypt-devel >= 1.1.42
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
+BuildRequires:	libtool
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel
-BuildRequires:	libtool
 %if %{with static}
 BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
@@ -33,6 +33,7 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
+Provides:	cryptsetup = 1.0.5
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
