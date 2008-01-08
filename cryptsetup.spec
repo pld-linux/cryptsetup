@@ -33,7 +33,7 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
-Provides:	cryptsetup = 1.0.5
+Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
