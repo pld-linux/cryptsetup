@@ -6,12 +6,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.0.5
-Release:	2
+Version:	1.0.6
+Release:	1
 License:	GPL
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{_realname}-%{version}.tar.bz2
-# Source0-md5:	0aa2f94c39123f1a0352983e5366179c
+# Source0-md5:	00d452eb7a76e39f5749545d48934a10
 Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/
 BuildRequires:	autoconf
