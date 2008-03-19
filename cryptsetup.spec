@@ -2,15 +2,15 @@
 # Conditonal build:
 %bcond_with	static	# link cryptsetup statically
 #
-%define	_realname	cryptsetup
+%define	realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
 Release:	2
-License:	GPL
+License:	GPL v2
 Group:		Base
-Source0:	http://luks.endorphin.org/source/%{_realname}-%{version}.tar.bz2
+Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
 # Source0-md5:	00d452eb7a76e39f5749545d48934a10
 Patch1:		%{name}-nostatic.patch
 URL:		http://luks.endorphin.org/
@@ -92,14 +92,15 @@ Static version of cryptsetup library.
 Statyczna wersja biblioteki cryptsetup.
 
 %prep
-%setup -q -n %{_realname}-%{version}
+%setup -q -n %{realname}-%{version}
 %patch1 -p1
 
 %build
 %{__gettextize}
-%{__autoheader}
+%{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--enable-static \
@@ -113,11 +114,11 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/%{_lib}
-mv -f $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.*.*.* $RPM_BUILD_ROOT/%{_lib}
-ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib}; echo libcryptsetup.so.*.*.*) \
+mv -f $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.* $RPM_BUILD_ROOT/%{_lib}
+ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
 
-%find_lang %{_realname}
+%find_lang %{realname}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -125,18 +126,19 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{_realname}.lang
+%files -f %{realname}.lang
 %defattr(644,root,root,755)
-%doc ChangeLog
+%doc AUTHORS ChangeLog TODO
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
-%{_mandir}/man8/*
+%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.0
+%{_mandir}/man8/cryptsetup.8*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libcryptsetup.so
 %{_libdir}/libcryptsetup.la
-%{_includedir}/*.h
+%{_includedir}/libcryptsetup.h
 
 %files static
 %defattr(644,root,root,755)
