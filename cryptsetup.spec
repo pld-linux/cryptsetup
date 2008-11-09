@@ -1,13 +1,13 @@
 #
 # Conditonal build:
-%bcond_with	static	# link cryptsetup statically
+%bcond_without	initrd	# don't build initrd version
 #
 %define	realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
@@ -24,7 +24,7 @@ BuildRequires:	libsepol-devel
 BuildRequires:	libtool
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel
-%if %{with static}
+%if %{with initrd}
 BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
 BuildRequires:	libgpg-error-static
@@ -91,6 +91,14 @@ Static version of cryptsetup library.
 %description static -l pl.UTF-8
 Statyczna wersja biblioteki cryptsetup.
 
+%package initrd
+Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
+Group:		Base
+
+%description initrd
+This package contains implementation of LUKS for dm-crypt implemented
+in cryptsetup - staticaly linked for initrd.
+
 %prep
 %setup -q -n %{realname}-%{version}
 %patch1 -p1
@@ -102,9 +110,18 @@ Statyczna wersja biblioteki cryptsetup.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
+
+%if %{with initrd}
 %configure \
 	--enable-static \
-	%{?with_static:--enable-static-cryptsetup}
+	--enable-static-cryptsetup
+%{__make}
+mv src/cryptsetup cryptsetup-initrd
+%{__make} clean
+%endif
+
+%configure \
+	--enable-static
 %{__make}
 
 %install
@@ -117,6 +134,10 @@ install -d $RPM_BUILD_ROOT/%{_lib}
 mv -f $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.* $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
+
+%if %{with initrd}
+install cryptsetup-initrd $RPM_BUILD_ROOT%{_sbindir}
+%endif
 
 %find_lang %{realname}
 
@@ -143,3 +164,9 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libcryptsetup.a
+
+%if %{with initrd}
+%files initrd
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_sbindir}/cryptsetup-initrd
+%endif
