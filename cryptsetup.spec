@@ -113,8 +113,10 @@ in cryptsetup - staticaly linked for initrd.
 
 %if %{with initrd}
 %configure \
+	--disable-shared-library \
 	--enable-static \
-	--enable-static-cryptsetup
+	--enable-static-cryptsetup \
+	--disable-nls
 %{__make}
 mv src/cryptsetup cryptsetup-initrd
 %{__make} clean
