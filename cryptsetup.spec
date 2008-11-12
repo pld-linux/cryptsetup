@@ -7,12 +7,13 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
 # Source0-md5:	00d452eb7a76e39f5749545d48934a10
 Patch1:		%{name}-nostatic.patch
+Patch2:		%{name}-udev.patch
 URL:		http://luks.endorphin.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -33,6 +34,7 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
+Requires:	udev-core >= 1:115
 Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -94,6 +96,7 @@ Statyczna wersja biblioteki cryptsetup.
 %package initrd
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
 Group:		Base
+Requires:	udev-initrd >= 1:115
 
 %description initrd
 This package contains implementation of LUKS for dm-crypt implemented
@@ -102,6 +105,7 @@ in cryptsetup - staticaly linked for initrd.
 %prep
 %setup -q -n %{realname}-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__gettextize}
