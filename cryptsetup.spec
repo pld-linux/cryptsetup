@@ -7,7 +7,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
-Release:	5
+Release:	6
 License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
@@ -34,7 +34,7 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
-Requires:	udev-core >= 1:115
+Suggests:	udev-core >= 1:115
 Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
