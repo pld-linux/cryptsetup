@@ -34,9 +34,10 @@ BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 %endif
-Conflicts:	udev-core < 1:115
 Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
+Conflicts:	udev < 1:118-1
+Conflicts:	udev-core < 1:115
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
