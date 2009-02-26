@@ -108,10 +108,27 @@ Requires:	udev-initrd >= 1:115
 This package contains implementation of LUKS for dm-crypt implemented
 in cryptsetup - staticaly linked for initrd.
 
+%package initramfs
+Summary:	LUKS for dm-crypt implemented in cryptsetup - support scripts for initramfs-tools
+Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dla initramfs-tools
+Group:		Base
+Requires:	%{name} = %{version}-%{release}
+Requires:	initramfs-tools
+
+%description initramfs
+LUKS for dm-crypt implemented in cryptsetup - support scripts
+for initramfs-tools.
+
+%description initramfs -l pl.UTF-8
+LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dla
+initramfs-tools.
+
 %prep
 %setup -q -n %{realname}-%{version}
 %patch1 -p1
 %patch2 -p1
+
+install %{SOURCE5} README.initramfs
 
 %build
 %{__gettextize}
@@ -138,6 +155,7 @@ mv src/cryptsetup cryptsetup-initrd
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/{conf-hooks.d,hooks,scripts/local-top}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -150,6 +168,11 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 %if %{with initrd}
 install cryptsetup-initrd $RPM_BUILD_ROOT%{_sbindir}
 %endif
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
+install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptroot
+install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/cryptroot
+install %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpassdev
 
 %find_lang %{realname}
 
@@ -182,3 +205,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/cryptsetup-initrd
 %endif
+
+%files initramfs
+%defattr(644,root,root,755)
+%doc README.initramfs
+%attr(755,root,root) %{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
+%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/cryptroot
+%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/cryptpassdev
+%attr(755,root,root) %{_datadir}/initramfs-tools/scripts/local-top/cryptroot
