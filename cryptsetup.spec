@@ -12,6 +12,11 @@ License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
 # Source0-md5:	00d452eb7a76e39f5749545d48934a10
+Source3:	%{name}-initramfs-root-conf
+Source4:	%{name}-initramfs-root-hook
+Source5:	%{name}-initramfs-root-local-top
+Source1:	%{name}-initramfs-passdev-hook
+Source2:	%{name}-initramfs-README
 Patch1:		%{name}-nostatic.patch
 Patch2:		%{name}-udev.patch
 URL:		http://luks.endorphin.org/
