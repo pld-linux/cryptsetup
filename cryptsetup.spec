@@ -20,6 +20,7 @@ Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
 Patch1:		%{name}-nostatic.patch
 Patch2:		%{name}-udev.patch
+Patch3:		%{name}-diet.patch
 URL:		http://luks.endorphin.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -135,6 +136,7 @@ initramfs-tools.
 %setup -q -n %{realname}-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 install %{SOURCE5} README.initramfs
 
@@ -171,7 +173,7 @@ diet %{__cc} -Os -I./lib -static -o cryptsetup-initrd src/cryptsetup.c \
 %{__make} -C src
 mv src/cryptsetup cryptsetup-initrd
 %endif
-
+exit 1
 %{__make} clean
 %endif
 
