@@ -1,7 +1,7 @@
 #
 # Conditonal build:
 %bcond_without	initrd		# don't build initrd version
-%bcond_with	dietlibc	# build initrd version with dietlibc (currently creates broken program)
+%bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
 #
 %define	realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
@@ -173,7 +173,7 @@ diet %{__cc} -Os -I./lib -static -o cryptsetup-initrd src/cryptsetup.c \
 %{__make} -C src
 mv src/cryptsetup cryptsetup-initrd
 %endif
-exit 1
+
 %{__make} clean
 %endif
 
