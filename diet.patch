@@ -5,7 +5,7 @@
  	    error=NULL;
  	}
 -
-+#ifdef __dietlbc__
++#ifdef __dietlibc__
 +	if (fmt)
 +#endif
          vasprintf(&error, fmt, va);
