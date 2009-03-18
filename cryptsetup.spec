@@ -1,13 +1,14 @@
 #
 # Conditonal build:
-%bcond_without	initrd	# don't build initrd version
+%bcond_without	initrd		# don't build initrd version
+%bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
 #
 %define	realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
-Release:	8
+Release:	9
 License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
@@ -31,13 +32,20 @@ BuildRequires:	libtool
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel
 %if %{with initrd}
+BuildRequires:	libgpg-error-static
+	%if %{with dietlibc}
+BuildRequires:	device-mapper-dietlibc
+BuildRequires:	libgcrypt-dietlibc
+BuildRequires:	libuuid-dietlibc
+BuildRequires:	popt-dietlibc
+	%else
 BuildRequires:	device-mapper-static >= 1.02.07
 BuildRequires:	libgcrypt-static >= 1.1.42
-BuildRequires:	libgpg-error-static
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
+	%endif
 %endif
 Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
@@ -140,12 +148,30 @@ install %{SOURCE5} README.initramfs
 
 %if %{with initrd}
 %configure \
+%if %{with dietlibc}
+	CC="diet %{__cc} -Os %{rpmldflags}" \
+	ac_cv_lib_popt_poptConfigFileToString=yes \
+	ac_cv_lib_sepol_sepol_bool_set=no \
+	ac_cv_lib_selinux_is_selinux_enabled=no \
+%endif
 	--disable-shared-library \
 	--enable-static \
 	--enable-static-cryptsetup \
 	--disable-nls
-%{__make}
+
+%{__make} -C luks
+%{__make} -C lib
+
+%if %{with dietlibc}
+# we have to do it by hand cause libtool "know better" and forces
+# static libs from /usr/lib
+diet %{__cc} -Os -I./lib -static -o cryptsetup-initrd src/cryptsetup.c \
+	./lib/.libs/libcryptsetup.a -lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
+%else
+%{__make} -C src
 mv src/cryptsetup cryptsetup-initrd
+%endif
+
 %{__make} clean
 %endif
 
