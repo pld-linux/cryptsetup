@@ -152,7 +152,7 @@ install %{SOURCE5} README.initramfs
 %if %{with initrd}
 %configure \
 %if %{with dietlibc}
-	CC="diet %{__cc} -Os %{rpmldflags}" \
+	CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -Os" \
 	ac_cv_lib_popt_poptConfigFileToString=yes \
 	ac_cv_lib_sepol_sepol_bool_set=no \
 	ac_cv_lib_selinux_is_selinux_enabled=no \
@@ -168,8 +168,9 @@ install %{SOURCE5} README.initramfs
 %if %{with dietlibc}
 # we have to do it by hand cause libtool "know better" and forces
 # static libs from /usr/lib
-diet %{__cc} -Os -I./lib -static -o cryptsetup-initrd src/cryptsetup.c \
-	./lib/.libs/libcryptsetup.a -lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
+diet %{__cc} %{rpmcflags} %{rpmldflags} -Os -I./lib -static \
+	-o cryptsetup-initrd src/cryptsetup.c ./lib/.libs/libcryptsetup.a \
+	-lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
 %else
 %{__make} -C src
 mv src/cryptsetup cryptsetup-initrd
