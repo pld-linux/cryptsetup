@@ -112,6 +112,7 @@ Statyczna wersja biblioteki cryptsetup.
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
 Group:		Base
 Requires:	udev-initrd >= 1:115
+Conflicts:	geninitrd <= 10000.3
 
 %description initrd
 This package contains implementation of LUKS for dm-crypt implemented
