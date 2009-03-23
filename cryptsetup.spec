@@ -194,7 +194,8 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
 
 %if %{with initrd}
-install cryptsetup-initrd $RPM_BUILD_ROOT%{_sbindir}
+install -d $RPM_BUILD_ROOT%{_libdir}/initrd
+install cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %endif
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
@@ -231,7 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/cryptsetup-initrd
+%attr(755,root,root) %{_libdir}/initrd/cryptsetup
 %endif
 
 %files initramfs
