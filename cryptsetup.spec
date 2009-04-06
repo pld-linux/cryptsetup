@@ -8,7 +8,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.0.6
-Release:	9
+Release:	10
 License:	GPL v2
 Group:		Base
 Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
@@ -112,7 +112,7 @@ Statyczna wersja biblioteki cryptsetup.
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
 Group:		Base
 Requires:	udev-initrd >= 1:115
-Conflicts:	geninitrd <= 10000.3
+Conflicts:	geninitrd < 10000.10
 
 %description initrd
 This package contains implementation of LUKS for dm-crypt implemented
