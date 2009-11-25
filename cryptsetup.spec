@@ -36,6 +36,7 @@ BuildRequires:	popt-devel
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
 BuildRequires:	device-mapper-dietlibc
+BuildRequires:  dietlibc-static
 BuildRequires:	libgcrypt-dietlibc
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
