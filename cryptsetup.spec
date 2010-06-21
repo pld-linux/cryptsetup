@@ -8,7 +8,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.1.2
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
@@ -19,6 +19,7 @@ Source3:	%{name}-initramfs-root-local-top
 Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
 Patch0:		%{name}-nostatic.patch
+Patch1:		%{name}-diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
@@ -140,6 +141,7 @@ initramfs-tools.
 %prep
 %setup -q -n %{realname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 install %{SOURCE5} README.initramfs
 
@@ -170,7 +172,7 @@ install %{SOURCE5} README.initramfs
 %if %{with dietlibc}
 # we have to do it by hand cause libtool "know better" and forces
 # static libs from /usr/lib
-diet %{__cc} %{rpmcflags} %{rpmldflags} -Os -I./lib -static \
+diet %{__cc} %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -static \
 	-o cryptsetup-initrd src/cryptsetup.c ./lib/.libs/libcryptsetup.a \
 	-lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
 %else

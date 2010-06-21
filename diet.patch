@@ -1,0 +1,50 @@
+--- cryptsetup-1.1.2/luks/pbkdf.c~	2009-09-11 16:11:50.000000000 +0200
++++ cryptsetup-1.1.2/luks/pbkdf.c	2010-06-21 11:16:57.353421474 +0200
+@@ -174,7 +174,7 @@
+ 	if (gcry_md_setkey(prf, P, Plen))
+ 		goto out;
+ 
+-	for (i = 1; (uint) i <= l; i++) {
++	for (i = 1; (unsigned int) i <= l; i++) {
+ 		memset(T, 0, hLen);
+ 
+ 		for (u = 1; u <= c ; u++) {
+@@ -198,7 +198,7 @@
+ 
+ 			memcpy(U, p, hLen);
+ 
+-			for (k = 0; (uint) k < hLen; k++)
++			for (k = 0; (unsigned int) k < hLen; k++)
+ 				T[k] ^= U[k];
+ 
+ 			if (perfcheck && __PBKDF2_performance) {
+@@ -210,7 +210,7 @@
+ 				__PBKDF2_global_j++;
+ 		}
+ 
+-		memcpy(DK + (i - 1) * hLen, T, (uint) i == l ? r : hLen);
++		memcpy(DK + (i - 1) * hLen, T, (unsigned int) i == l ? r : hLen);
+ 	}
+ 	rc = 0;
+ out:
+--- cryptsetup-1.1.2/luks/keymanage.c.org	2010-06-21 11:25:41.010034880 +0200
++++ cryptsetup-1.1.2/luks/keymanage.c	2010-06-21 11:25:47.149697130 +0200
+@@ -20,6 +20,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/ioctl.h>
++#include <limits.h>
+ #include <linux/fs.h>
+ #include <netinet/in.h>
+ #include <fcntl.h>
+@@ -37,6 +38,10 @@
+ #include <uuid/uuid.h>
+ #include <../lib/internal.h>
+ 
++#ifndef UINT32_MAX
++#define UINT32_MAX UINT_MAX
++#endif
++
+ #define div_round_up(a,b) ({           \
+ 	typeof(a) __a = (a);          \
+ 	typeof(b) __b = (b);          \
