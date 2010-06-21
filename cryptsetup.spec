@@ -109,13 +109,18 @@ Statyczna wersja biblioteki cryptsetup.
 
 %package initrd
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
+Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup - wersja initrd
 Group:		Base
 Requires:	udev-initrd >= 1:115
 Conflicts:	geninitrd < 10000.10
 
 %description initrd
 This package contains implementation of LUKS for dm-crypt implemented
-in cryptsetup - staticaly linked for initrd.
+in cryptsetup - statically linked for initrd.
+
+%description initrd -l pl.UTF-8
+Ten pakiet zawiera implementację LUKS dla dm-crypta zaimplementowaną
+w cryptsetup - wersję statycznie zlinkowaną dla initrd.
 
 %package initramfs
 Summary:	LUKS for dm-crypt implemented in cryptsetup - support scripts for initramfs-tools
