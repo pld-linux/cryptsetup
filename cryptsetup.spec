@@ -7,31 +7,29 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.0.6
-Release:	10
+Version:	1.1.2
+Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	http://luks.endorphin.org/source/%{realname}-%{version}.tar.bz2
-# Source0-md5:	00d452eb7a76e39f5749545d48934a10
+Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
+# Source0-md5:	f3928c1f1d49fcee39bb1e8d42fe707a
 Source1:	%{name}-initramfs-root-conf
 Source2:	%{name}-initramfs-root-hook
 Source3:	%{name}-initramfs-root-local-top
 Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
-Patch1:		%{name}-nostatic.patch
-Patch2:		%{name}-udev.patch
-Patch3:		%{name}-diet.patch
-URL:		http://luks.endorphin.org/
-BuildRequires:	autoconf
+Patch0:		%{name}-nostatic.patch
+URL:		http://code.google.com/p/cryptsetup/
+BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
-BuildRequires:	device-mapper-devel
-BuildRequires:	gettext-devel
+BuildRequires:	device-mapper-devel >= 1.02.03
+BuildRequires:	gettext-devel >= 0.15
 BuildRequires:	libgcrypt-devel >= 1.1.42
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libtool
 BuildRequires:	libuuid-devel
-BuildRequires:	popt-devel
+BuildRequires:	popt-devel >= 1.7
 %if %{with initrd}
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
@@ -49,6 +47,7 @@ BuildRequires:	libuuid-static
 BuildRequires:	popt-static
 	%endif
 %endif
+Requires:	popt >= 1.7
 Provides:	cryptsetup = %{version}
 Obsoletes:	cryptsetup
 Conflicts:	udev < 1:118-1
@@ -56,7 +55,6 @@ Conflicts:	udev-core < 1:115
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
-%define		_noautoreqdep	libcryptsetup.so.0
 
 %description
 LUKS is the upcoming standard for Linux hard disk encryption. By
@@ -136,9 +134,7 @@ initramfs-tools.
 
 %prep
 %setup -q -n %{realname}-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch0 -p1
 
 install %{SOURCE5} README.initramfs
 
@@ -219,7 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog TODO
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.0
+%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.1
 %{_mandir}/man8/cryptsetup.8*
 
 %files devel
@@ -227,6 +223,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libcryptsetup.so
 %{_libdir}/libcryptsetup.la
 %{_includedir}/libcryptsetup.h
+%{_pkgconfigdir}/libcryptsetup.pc
 
 %files static
 %defattr(644,root,root,755)
