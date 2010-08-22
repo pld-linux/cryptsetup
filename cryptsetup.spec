@@ -2,17 +2,17 @@
 # Conditonal build:
 %bcond_without	initrd		# don't build initrd version
 %bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
-#
-%define	realname	cryptsetup
+
+%define		realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.1.2
-Release:	2
+Version:	1.1.3
+Release:	1
 License:	GPL v2
 Group:		Base
 Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
-# Source0-md5:	f3928c1f1d49fcee39bb1e8d42fe707a
+# Source0-md5:	318a64470861ea5b92a52f2014f1e7c1
 Source1:	%{name}-initramfs-root-conf
 Source2:	%{name}-initramfs-root-hook
 Source3:	%{name}-initramfs-root-local-top
@@ -143,7 +143,7 @@ initramfs-tools.
 %patch0 -p1
 %patch1 -p1
 
-install %{SOURCE5} README.initramfs
+cp -a %{SOURCE5} README.initramfs
 
 %build
 %{__gettextize}
@@ -154,12 +154,17 @@ install %{SOURCE5} README.initramfs
 %{__automake}
 
 %if %{with initrd}
+CC="%{__cc}"
 %configure \
 %if %{with dietlibc}
-	CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -Os" \
+%configure \
+	CC="diet ${CC#ccache } %{rpmcflags} %{rpmldflags} -Os" \
 	ac_cv_lib_popt_poptConfigFileToString=yes \
 	ac_cv_lib_sepol_sepol_bool_set=no \
 	ac_cv_lib_selinux_is_selinux_enabled=no \
+%endif
+%if "%{?configure_cache}" == "1"
+	--cache-file=%{?configure_cache_file}%{!?configure_cache_file:configure}-initrd.cache \
 %endif
 	--disable-shared-library \
 	--enable-static \
@@ -172,7 +177,8 @@ install %{SOURCE5} README.initramfs
 %if %{with dietlibc}
 # we have to do it by hand cause libtool "know better" and forces
 # static libs from /usr/lib
-diet %{__cc} %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -static \
+CC="%{__cc}"
+diet ${CC#ccache } %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -static \
 	-o cryptsetup-initrd src/cryptsetup.c ./lib/.libs/libcryptsetup.a \
 	-lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
 %else
@@ -201,13 +207,13 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
-install cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
+install -p cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %endif
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
-install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptroot
-install %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/cryptroot
-install %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpassdev
+install -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
+install -p %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptroot
+install -p %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/cryptroot
+install -p %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpassdev
 
 %find_lang %{realname}
 
