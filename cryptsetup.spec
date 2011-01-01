@@ -7,28 +7,28 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.1.3
+Version:	1.2.0
 Release:	1
 License:	GPL v2
 Group:		Base
+#Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
-# Source0-md5:	318a64470861ea5b92a52f2014f1e7c1
+# Source0-md5:	b4ac29d3d8b4771a457a8ceaa8c6aa13
 Source1:	%{name}-initramfs-root-conf
 Source2:	%{name}-initramfs-root-hook
 Source3:	%{name}-initramfs-root-local-top
 Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
-Patch0:		%{name}-nostatic.patch
-Patch1:		%{name}-diet.patch
+Patch0:		%{name}-diet.patch
 URL:		http://code.google.com/p/cryptsetup/
-BuildRequires:	autoconf >= 2.57
+BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.03
 BuildRequires:	gettext-devel >= 0.15
 BuildRequires:	libgcrypt-devel >= 1.1.42
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel >= 1.7
 %if %{with initrd}
@@ -141,7 +141,6 @@ initramfs-tools.
 %prep
 %setup -q -n %{realname}-%{version}
 %patch0 -p1
-%patch1 -p1
 
 cp -a %{SOURCE5} README.initramfs
 

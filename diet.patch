@@ -1,5 +1,5 @@
---- cryptsetup-1.1.2/luks/pbkdf.c~	2009-09-11 16:11:50.000000000 +0200
-+++ cryptsetup-1.1.2/luks/pbkdf.c	2010-06-21 11:16:57.353421474 +0200
+--- cryptsetup-1.2.0/lib/luks1/pbkdf.c~	2009-09-11 16:11:50.000000000 +0200
++++ cryptsetup-1.2.0/lib/luks1/pbkdf.c	2010-06-21 11:16:57.353421474 +0200
 @@ -174,7 +174,7 @@
  	if (gcry_md_setkey(prf, P, Plen))
  		goto out;
@@ -27,8 +27,8 @@
  	}
  	rc = 0;
  out:
---- cryptsetup-1.1.2/luks/keymanage.c.org	2010-06-21 11:25:41.010034880 +0200
-+++ cryptsetup-1.1.2/luks/keymanage.c	2010-06-21 11:25:47.149697130 +0200
+--- cryptsetup-1.2.0/lib/luks1/keymanage.c.org	2010-06-21 11:25:41.010034880 +0200
++++ cryptsetup-1.2.0/lib/luks1/keymanage.c	2010-06-21 11:25:47.149697130 +0200
 @@ -20,6 +20,7 @@
  #include <sys/types.h>
  #include <sys/stat.h>
