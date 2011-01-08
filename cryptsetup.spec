@@ -8,7 +8,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.2.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
@@ -158,6 +158,7 @@ CC="%{__cc}"
 %if %{with dietlibc}
 %configure \
 	CC="diet ${CC#ccache } %{rpmcflags} %{rpmldflags} -Os" \
+	LIBS="-lcompat" \
 	ac_cv_lib_popt_poptConfigFileToString=yes \
 	ac_cv_lib_sepol_sepol_bool_set=no \
 	ac_cv_lib_selinux_is_selinux_enabled=no \
@@ -165,12 +166,11 @@ CC="%{__cc}"
 %if "%{?configure_cache}" == "1"
 	--cache-file=%{?configure_cache_file}%{!?configure_cache_file:configure}-initrd.cache \
 %endif
-	--disable-shared-library \
+	--disable-shared \
 	--enable-static \
 	--enable-static-cryptsetup \
 	--disable-nls
 
-%{__make} -C luks
 %{__make} -C lib
 
 %if %{with dietlibc}
