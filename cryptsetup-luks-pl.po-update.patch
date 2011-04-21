@@ -1,0 +1,33 @@
+--- cryptsetup-1.3.0/po/pl.po.orig	2011-04-05 21:06:00.000000000 +0200
++++ cryptsetup-1.3.0/po/pl.po	2011-04-21 19:40:46.802750678 +0200
+@@ -5,10 +5,10 @@
+ #
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: cryptsetup 1.3.0-rc2\n"
++"Project-Id-Version: cryptsetup 1.3.0\n"
+ "Report-Msgid-Bugs-To: dm-crypt@saout.de\n"
+ "POT-Creation-Date: 2011-04-05 21:05+0200\n"
+-"PO-Revision-Date: 2011-03-24 19:52+0100\n"
++"PO-Revision-Date: 2011-04-21 19:32+0200\n"
+ "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
+ "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+ "Language: pl\n"
+@@ -1045,16 +1045,11 @@
+ msgstr "Opcja --uuid jest dozwolona tylko dla operacji luksFormat i luksUUID."
+ 
+ #: src/cryptsetup.c:1257
+-#, fuzzy
+ msgid "Option --skip is supported only for create and loopaesOpen commands.\n"
+-msgstr ""
+-"Opcja --offset jest obs³ugiwana tylko dla poleceñ create i loopaesOpen.\n"
++msgstr "Opcja --skip jest obs³ugiwana tylko dla poleceñ create i loopaesOpen.\n"
+ 
+ #: src/cryptsetup.c:1262
+ msgid ""
+ "Option --offset is supported only for create and loopaesOpen commands.\n"
+ msgstr ""
+ "Opcja --offset jest obs³ugiwana tylko dla poleceñ create i loopaesOpen.\n"
+-
+-#~ msgid "Option --skip is supported only for create command.\n"
+-#~ msgstr "Opcja --skip jest obs³ugiwana tylko dla polecenia create.\n"
