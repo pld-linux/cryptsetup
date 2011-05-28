@@ -7,13 +7,13 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.3.0
+Version:	1.3.1
 Release:	1
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
-# Source0-md5:	d2bc0fd59c1118ec3bfae099af38d333
+# Source0-md5:	1f5b5a9d538e8a3c191fb7dd85b9b013
 Source1:	%{name}-initramfs-root-conf
 Source2:	%{name}-initramfs-root-hook
 Source3:	%{name}-initramfs-root-local-top
