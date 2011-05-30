@@ -1,0 +1,22 @@
+--- cryptsetup-1.3.1/configure.in~	2011-05-30 15:48:40.361712101 +0200
++++ cryptsetup-1.3.1/configure.in	2011-05-30 15:52:03.021018901 +0200
+@@ -157,7 +157,7 @@
+ 	[disable udev support]),[], enable_udev=yes)
+ 
+ dnl Try to use pkg-config for devmapper, but fallback to old detection
+-PKG_CHECK_MODULES([DEVMAPPER], [devmapper >= 1.02.03],, [
++PKG_CHECK_MODULES([DEVMAPPER], [devmapper-always-use-fallback-so-only-required-libs-will-go-in >= 1.02.03],, [
+ 	AC_CHECK_LIB(devmapper, dm_task_set_name,,
+ 		[AC_MSG_ERROR([You need the device-mapper library.])])
+ 	AC_CHECK_LIB(devmapper, dm_task_set_message,,
+--- cryptsetup-1.3.1/configure.in~	2011-05-30 16:04:32.645465788 +0200
++++ cryptsetup-1.3.1/configure.in	2011-05-30 16:06:09.913262079 +0200
+@@ -208,7 +208,7 @@
+ 
+ 	dnl Try to detect needed device-mapper static libraries, try pkg-config first.
+ 	LIBS="$saved_LIBS -static"
+-	PKG_CHECK_MODULES([DEVMAPPER_STATIC], [devmapper >= 1.02.27],,[
++	PKG_CHECK_MODULES([DEVMAPPER_STATIC], [devmapper-without-tons-of-deps >= 1.02.27],,[
+ 		DEVMAPPER_STATIC_LIBS=$DEVMAPPER_LIBS
+ 		if test "x$enable_selinux" != xno; then
+ 			AC_CHECK_LIB(sepol, sepol_bool_set)

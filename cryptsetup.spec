@@ -8,7 +8,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
 Version:	1.3.1
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
@@ -21,6 +21,7 @@ Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
 Patch0:		%{name}-diet.patch
 Patch1:		%{name}-pl.po-update.patch
+Patch2:		%{name}-dont-drag-more-libs.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake
@@ -143,6 +144,7 @@ initramfs-tools.
 %setup -q -n %{realname}-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 cp -a %{SOURCE5} README.initramfs
 
@@ -161,7 +163,7 @@ CC="%{__cc}"
 %configure \
 %if %{with dietlibc}
 %configure \
-	CC="diet ${CC#ccache } %{rpmcflags} %{rpmldflags} -Os" \
+	CC="diet ${CC#ccache } %{rpmcppflags} %{rpmcflags} %{rpmldflags} -Os" \
 	LIBS="-lcompat" \
 	ac_cv_lib_popt_poptConfigFileToString=yes \
 	ac_cv_lib_sepol_sepol_bool_set=no \
@@ -173,6 +175,8 @@ CC="%{__cc}"
 	--disable-shared \
 	--enable-static \
 	--enable-static-cryptsetup \
+	--with-crypto_backend=kernel \
+	--disable-udev \
 	--disable-nls
 
 %{__make} -C lib
@@ -181,7 +185,7 @@ CC="%{__cc}"
 # we have to do it by hand cause libtool "know better" and forces
 # static libs from /usr/lib
 CC="%{__cc}"
-diet ${CC#ccache } %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -static \
+diet ${CC#ccache } %{rpmcppflags} %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -static \
 	-o cryptsetup-initrd src/cryptsetup.c ./lib/.libs/libcryptsetup.a \
 	-lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
 %else
@@ -193,6 +197,7 @@ mv src/cryptsetup cryptsetup-initrd
 %endif
 
 %configure \
+	--enable-udev \
 	--enable-static
 %{__make}
 
