@@ -175,7 +175,6 @@ CC="%{__cc}"
 	--disable-shared \
 	--enable-static \
 	--enable-static-cryptsetup \
-	--with-crypto_backend=kernel \
 	--disable-udev \
 	--disable-nls
 
