@@ -7,21 +7,20 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup-luks
-Version:	1.3.1
-Release:	2
+Version:	1.4.0
+Release:	1
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
-# Source0-md5:	1f5b5a9d538e8a3c191fb7dd85b9b013
+# Source0-md5:	4328641ba4532c229526c6ef282e5286
 Source1:	%{name}-initramfs-root-conf
 Source2:	%{name}-initramfs-root-hook
 Source3:	%{name}-initramfs-root-local-top
 Source4:	%{name}-initramfs-passdev-hook
 Source5:	%{name}-initramfs-README
 Patch0:		%{name}-diet.patch
-Patch1:		%{name}-pl.po-update.patch
-Patch2:		%{name}-dont-drag-more-libs.patch
+Patch1:		%{name}-dont-drag-more-libs.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake
@@ -144,7 +143,6 @@ initramfs-tools.
 %setup -q -n %{realname}-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 cp -a %{SOURCE5} README.initramfs
 
@@ -235,7 +233,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog TODO
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.1
+%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.4
 %{_mandir}/man8/cryptsetup.8*
 
 %files devel

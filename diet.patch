@@ -27,19 +27,19 @@
  	}
  	rc = 0;
  out:
---- cryptsetup-1.2.0/lib/luks1/keymanage.c.org	2010-06-21 11:25:41.010034880 +0200
-+++ cryptsetup-1.2.0/lib/luks1/keymanage.c	2010-06-21 11:25:47.149697130 +0200
-@@ -20,6 +20,7 @@
+--- cryptsetup-1.4.0/lib/luks1/keymanage.c.orig	2011-10-08 23:57:01.000000000 +0200
++++ cryptsetup-1.4.0/lib/luks1/keymanage.c	2011-10-30 07:53:26.817195403 +0100
+@@ -19,6 +19,7 @@
+ 
  #include <sys/types.h>
  #include <sys/stat.h>
- #include <sys/ioctl.h>
 +#include <limits.h>
- #include <linux/fs.h>
  #include <netinet/in.h>
  #include <fcntl.h>
-@@ -37,6 +38,10 @@
- #include <uuid/uuid.h>
- #include <../lib/internal.h>
+ #include <errno.h>
+@@ -35,6 +36,10 @@
+ #include "pbkdf.h"
+ #include "internal.h"
  
 +#ifndef UINT32_MAX
 +#define UINT32_MAX UINT_MAX
@@ -48,4 +48,3 @@
  #define div_round_up(a,b) ({           \
  	typeof(a) __a = (a);          \
  	typeof(b) __b = (b);          \
-
