@@ -2,7 +2,8 @@
 # Conditonal build:
 %bcond_without	initrd		# don't build initrd version
 %bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
-
+%bcond_without	python		# Python binding
+#
 %define		realname	cryptsetup
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
@@ -32,6 +33,10 @@ BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel >= 1.7
+%if %{with python}
+BuildRequires:	python-devel >= 1:2.4
+BuildRequires:	rpm-pythonprov
+%endif
 %if %{with initrd}
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
@@ -108,6 +113,19 @@ Static version of cryptsetup library.
 
 %description static -l pl.UTF-8
 Statyczna wersja biblioteki cryptsetup.
+
+%package -n python-pycryptsetup
+Summary:	Python binding for cryptsetup library
+Summary(pl.UTF-8):	Wiązanie Pythona do biblioteki cryptsetup
+Group:		Libraries/Python
+Requires:	%{name}-libs = %{version}-%{release}
+%pyrequires_eq	python-libs
+
+%description -n python-pycryptsetup
+Python binding for cryptsetup library.
+
+%description -n python-pycryptsetup -l pl.UTF-8
+Wiązanie Pythona do biblioteki cryptsetup.
 
 %package initrd
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
@@ -195,7 +213,8 @@ mv src/cryptsetup cryptsetup-initrd
 
 %configure \
 	--enable-udev \
-	--enable-static
+	--enable-static \
+	%{?with_python:--enable-python}
 %{__make}
 
 %install
@@ -219,6 +238,8 @@ install -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cr
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptroot
 install -p %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/cryptroot
 install -p %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpassdev
+
+%{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.{la,a}}
 
 %find_lang %{realname}
 
@@ -246,6 +267,12 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libcryptsetup.a
+
+%if %{with python}
+%files -n python-pycryptsetup
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/pycryptsetup.so
+%endif
 
 %if %{with initrd}
 %files initrd
