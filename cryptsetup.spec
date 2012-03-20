@@ -3,25 +3,24 @@
 %bcond_without	initrd		# don't build initrd version
 %bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	python		# Python binding
-#
-%define		realname	cryptsetup
+
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
-Name:		cryptsetup-luks
+Name:		cryptsetup
 Version:	1.4.1
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
-Source0:	http://cryptsetup.googlecode.com/files/%{realname}-%{version}.tar.bz2
+Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	9253b3f29abf5c6f333eb74128b0df1c
-Source1:	%{name}-initramfs-root-conf
-Source2:	%{name}-initramfs-root-hook
-Source3:	%{name}-initramfs-root-local-top
-Source4:	%{name}-initramfs-passdev-hook
-Source5:	%{name}-initramfs-README
-Patch0:		%{name}-diet.patch
-Patch1:		%{name}-dont-drag-more-libs.patch
+Source1:	initramfs-root-conf
+Source2:	initramfs-root-hook
+Source3:	initramfs-root-local-top
+Source4:	initramfs-passdev-hook
+Source5:	initramfs-README
+Patch0:		diet.patch
+Patch1:		dont-drag-more-libs.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake
@@ -33,6 +32,8 @@ BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel >= 1.7
+Provides:	cryptsetup-luks = %{version}-%{release}
+Obsoletes:	cryptsetup-luks < 1.4.1-2
 %if %{with python}
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
@@ -41,7 +42,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
 BuildRequires:	device-mapper-dietlibc
-BuildRequires:  dietlibc-static
+BuildRequires:	dietlibc-static
 BuildRequires:	libgcrypt-dietlibc
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
@@ -93,7 +94,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel
 Requires:	libgcrypt-devel >= 1.1.42
-Obsoletes:	cryptsetup-devel
+Provides:	cryptsetup-luks-devel = %{version}-%{release}
+Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
 
 %description devel
 Header files for cryptsetup library.
@@ -106,7 +108,8 @@ Summary:	Static cryptsetup library
 Summary(pl.UTF-8):	Statyczna biblioteka cryptsetup
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Obsoletes:	cryptsetup-static
+Provides:	cryptsetup-luks-static = %{version}-%{release}
+Obsoletes:	cryptsetup-luks-static < 1.4.1-2
 
 %description static
 Static version of cryptsetup library.
@@ -132,6 +135,8 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup - wersja initrd
 Group:		Base
 Requires:	udev-initrd >= 1:115
+Provides:	cryptsetup-luks-initrd = %{version}-%{release}
+Obsoletes:	cryptsetup-luks-initrd < 1.4.1-2
 Conflicts:	geninitrd < 10000.10
 
 %description initrd
@@ -139,8 +144,8 @@ This package contains implementation of LUKS for dm-crypt implemented
 in cryptsetup - statically linked for initrd.
 
 %description initrd -l pl.UTF-8
-Ten pakiet zawiera implementację LUKS dla dm-crypta zaimplementowaną
-w cryptsetup - wersję statycznie zlinkowaną dla initrd.
+Ten pakiet zawiera implementację LUKS dla dm-crypta zaimplementowaną w
+cryptsetup - wersję statycznie zlinkowaną dla initrd.
 
 %package initramfs
 Summary:	LUKS for dm-crypt implemented in cryptsetup - support scripts for initramfs-tools
@@ -148,21 +153,23 @@ Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dl
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	initramfs-tools
+Provides:	cryptsetup-luks-initramfs = %{version}-%{release}
+Obsoletes:	cryptsetup-luks-initramfs < 1.4.1-2
 
 %description initramfs
-LUKS for dm-crypt implemented in cryptsetup - support scripts
-for initramfs-tools.
+LUKS for dm-crypt implemented in cryptsetup - support scripts for
+initramfs-tools.
 
 %description initramfs -l pl.UTF-8
 LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dla
 initramfs-tools.
 
 %prep
-%setup -q -n %{realname}-%{version}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 
-cp -a %{SOURCE5} README.initramfs
+cp -p %{SOURCE5} README.initramfs
 
 %{__rm} po/stamp-po
 
@@ -241,7 +248,7 @@ install -p %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpass
 
 %{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.{la,a}}
 
-%find_lang %{realname}
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -249,7 +256,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{realname}.lang
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog TODO
 %attr(755,root,root) %{_sbindir}/cryptsetup
