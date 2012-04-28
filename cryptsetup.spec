@@ -8,17 +8,12 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	1.4.2
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	db2e6189e1b191a279a1f508396d3373
-Source1:	initramfs-root-conf
-Source2:	initramfs-root-hook
-Source3:	initramfs-root-local-top
-Source4:	initramfs-passdev-hook
-Source5:	initramfs-README
 Patch0:		diet.patch
 Patch1:		dont-drag-more-libs.patch
 URL:		http://code.google.com/p/cryptsetup/
@@ -147,29 +142,10 @@ in cryptsetup - statically linked for initrd.
 Ten pakiet zawiera implementację LUKS dla dm-crypta zaimplementowaną w
 cryptsetup - wersję statycznie zlinkowaną dla initrd.
 
-%package initramfs
-Summary:	LUKS for dm-crypt implemented in cryptsetup - support scripts for initramfs-tools
-Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dla initramfs-tools
-Group:		Base
-Requires:	%{name} = %{version}-%{release}
-Requires:	initramfs-tools
-Provides:	cryptsetup-luks-initramfs = %{version}-%{release}
-Obsoletes:	cryptsetup-luks-initramfs < 1.4.1-2
-
-%description initramfs
-LUKS for dm-crypt implemented in cryptsetup - support scripts for
-initramfs-tools.
-
-%description initramfs -l pl.UTF-8
-LUKS dla dm-crypta zaimplementowany w cryptsetup - skrypty dla
-initramfs-tools.
-
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
-
-cp -p %{SOURCE5} README.initramfs
 
 %{__rm} po/stamp-po
 
@@ -226,7 +202,6 @@ mv src/cryptsetup cryptsetup-initrd
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/{conf-hooks.d,hooks,scripts/local-top}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -240,11 +215,6 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
 install -p cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %endif
-
-install -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
-install -p %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptroot
-install -p %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/cryptroot
-install -p %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/cryptpassdev
 
 %{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.{la,a}}
 
@@ -286,11 +256,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/initrd/cryptsetup
 %endif
-
-%files initramfs
-%defattr(644,root,root,755)
-%doc README.initramfs
-%attr(755,root,root) %{_datadir}/initramfs-tools/conf-hooks.d/cryptsetup
-%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/cryptroot
-%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/cryptpassdev
-%attr(755,root,root) %{_datadir}/initramfs-tools/scripts/local-top/cryptroot
