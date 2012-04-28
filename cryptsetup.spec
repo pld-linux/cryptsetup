@@ -1,21 +1,20 @@
 #
 # Conditonal build:
 %bcond_without	initrd		# don't build initrd version
-%bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
+%bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	python		# Python binding
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	1.4.2
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Base
 #Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	db2e6189e1b191a279a1f508396d3373
 Patch0:		diet.patch
-Patch1:		dont-drag-more-libs.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake
@@ -48,6 +47,7 @@ BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
 BuildRequires:	popt-static
+BuildRequires:	udev-static
 	%endif
 %endif
 Requires:	popt >= 1.7
@@ -145,7 +145,6 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %{__rm} po/stamp-po
 
@@ -161,7 +160,6 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 CC="%{__cc}"
 %configure \
 %if %{with dietlibc}
-%configure \
 	CC="diet ${CC#ccache } %{rpmcppflags} %{rpmcflags} %{rpmldflags} -Os" \
 	LIBS="-lcompat" \
 	ac_cv_lib_popt_poptConfigFileToString=yes \
@@ -174,7 +172,6 @@ CC="%{__cc}"
 	--disable-shared \
 	--enable-static \
 	--enable-static-cryptsetup \
-	--disable-udev \
 	--disable-nls
 
 %{__make} -C lib
