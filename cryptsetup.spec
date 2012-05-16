@@ -8,10 +8,10 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	1.4.2
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Base
-#Source0Download: http://code.google.com/p/cryptsetup/downloads/list
+# Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	db2e6189e1b191a279a1f508396d3373
 Patch0:		diet.patch
@@ -116,7 +116,7 @@ Statyczna wersja biblioteki cryptsetup.
 Summary:	Python binding for cryptsetup library
 Summary(pl.UTF-8):	Wiązanie Pythona do biblioteki cryptsetup
 Group:		Libraries/Python
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 %pyrequires_eq	python-libs
 
 %description -n python-pycryptsetup
