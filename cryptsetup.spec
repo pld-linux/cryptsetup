@@ -7,13 +7,13 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.4.3
+Version:	1.5.0
 Release:	1
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	9b9fc9ab1ad2c04d4886bbd5640df90f
+# Source0-md5:	0fa7ba8923b0ce8eed2aa65f2cb9950c
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
@@ -227,9 +227,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog TODO
 %attr(755,root,root) %{_sbindir}/cryptsetup
+%attr(755,root,root) %{_sbindir}/veritysetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.4
 %{_mandir}/man8/cryptsetup.8*
+%{_mandir}/man8/veritysetup.8*
 
 %files devel
 %defattr(644,root,root,755)
