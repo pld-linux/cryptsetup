@@ -8,7 +8,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	1.5.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
@@ -26,8 +26,6 @@ BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
 BuildRequires:	popt-devel >= 1.7
-Provides:	cryptsetup-luks = %{version}-%{release}
-Obsoletes:	cryptsetup-luks < 1.4.1-2
 %if %{with python}
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
@@ -51,8 +49,8 @@ BuildRequires:	udev-static
 	%endif
 %endif
 Requires:	popt >= 1.7
-Provides:	cryptsetup = %{version}
-Obsoletes:	cryptsetup
+Provides:	cryptsetup-luks = %{version}-%{release}
+Obsoletes:	cryptsetup-luks < 1.4.1-2
 Conflicts:	udev < 1:118-1
 Conflicts:	udev-core < 1:115
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
