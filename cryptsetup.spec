@@ -7,13 +7,13 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.5.0
-Release:	2
+Version:	1.5.1
+Release:	1
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	0fa7ba8923b0ce8eed2aa65f2cb9950c
+# Source0-md5:	87cc018c0c65f36043f38ceb8ffd4d81
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
@@ -33,13 +33,13 @@ BuildRequires:	rpm-pythonprov
 %if %{with initrd}
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
-BuildRequires:	device-mapper-dietlibc
+BuildRequires:	device-mapper-dietlibc >= 1.02.27
 BuildRequires:	dietlibc-static
 BuildRequires:	libgcrypt-dietlibc
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
 	%else
-BuildRequires:	device-mapper-static >= 1.02.07
+BuildRequires:	device-mapper-static >= 1.02.27
 BuildRequires:	libgcrypt-static >= 1.1.42
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
@@ -85,7 +85,7 @@ Summary:	Header files for cryptsetup library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	device-mapper-devel
+Requires:	device-mapper-devel >= 1.02.03
 Requires:	libgcrypt-devel >= 1.1.42
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2

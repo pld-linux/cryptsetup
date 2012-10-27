@@ -27,9 +27,9 @@
  	}
  	rc = 0;
  out:
---- cryptsetup-1.4.0/lib/luks1/keymanage.c.orig	2011-10-08 23:57:01.000000000 +0200
-+++ cryptsetup-1.4.0/lib/luks1/keymanage.c	2011-10-30 07:53:26.817195403 +0100
-@@ -19,6 +19,7 @@
+--- cryptsetup-1.5.1/lib/luks1/keymanage.c.orig	2012-09-19 13:55:25.000000000 +0200
++++ cryptsetup-1.5.1/lib/luks1/keymanage.c	2012-10-27 10:40:19.872153257 +0200
+@@ -20,6 +20,7 @@
  
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -37,7 +37,7 @@
  #include <netinet/in.h>
  #include <fcntl.h>
  #include <errno.h>
-@@ -35,6 +36,10 @@
+@@ -36,6 +37,10 @@
  #include "pbkdf.h"
  #include "internal.h"
  
@@ -45,6 +45,6 @@
 +#define UINT32_MAX UINT_MAX
 +#endif
 +
- #define div_round_up(a,b) ({           \
- 	typeof(a) __a = (a);          \
- 	typeof(b) __b = (b);          \
+ /* Get size of struct luks_phdr with all keyslots material space */
+ static size_t LUKS_device_sectors(size_t keyLen)
+ {
