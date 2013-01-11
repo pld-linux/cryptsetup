@@ -1,6 +1,6 @@
 #
 # Conditonal build:
-%bcond_without	initrd		# don't build initrd version
+%bcond_with	initrd		# don't build initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	python		# Python binding
 
@@ -51,6 +51,7 @@ BuildRequires:	udev-static
 Requires:	popt >= 1.7
 Provides:	cryptsetup-luks = %{version}-%{release}
 Obsoletes:	cryptsetup-luks < 1.4.1-2
+%{!?with_initrd:Obsoletes:	cryptsetup-initrd < %{version}-%{release}}
 Conflicts:	udev < 1:118-1
 Conflicts:	udev-core < 1:115
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
