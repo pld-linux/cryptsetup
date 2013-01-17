@@ -1,7 +1,9 @@
+# TODO: BR libgcrypt >= 1.6.0 when released (to use gcrypt PBKDF2)
 #
 # Conditonal build:
 %bcond_with	initrd		# don't build initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
+%bcond_with	pwquality	# password quality checking
 %bcond_without	python		# Python binding
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
@@ -21,6 +23,7 @@ BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.03
 BuildRequires:	gettext-devel >= 0.15
 BuildRequires:	libgcrypt-devel >= 1.1.42
+%{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
@@ -35,7 +38,7 @@ BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
 BuildRequires:	device-mapper-dietlibc >= 1.02.27
 BuildRequires:	dietlibc-static
-BuildRequires:	libgcrypt-dietlibc
+BuildRequires:	libgcrypt-dietlibc >= 1.1.42
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
 	%else
@@ -48,6 +51,8 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
+Requires:	libgcrypt >= 1.1.42
+%{?with_pwquality:Requires:	libpwquality >= 1.0.0}
 Requires:	popt >= 1.7
 Provides:	cryptsetup-luks = %{version}-%{release}
 Obsoletes:	cryptsetup-luks < 1.4.1-2
@@ -168,10 +173,10 @@ CC="%{__cc}"
 %if "%{?configure_cache}" == "1"
 	--cache-file=%{?configure_cache_file}%{!?configure_cache_file:configure}-initrd.cache \
 %endif
+	--disable-nls \
 	--disable-shared \
 	--enable-static \
-	--enable-static-cryptsetup \
-	--disable-nls
+	--enable-static-cryptsetup
 
 %{__make} -C lib
 
@@ -193,7 +198,8 @@ mv src/cryptsetup cryptsetup-initrd
 %configure \
 	--enable-udev \
 	--enable-static \
-	%{?with_python:--enable-python}
+	%{?with_python:--enable-python} \
+	%{?with_pwquality:--with-pwquality}
 %{__make}
 
 %install
