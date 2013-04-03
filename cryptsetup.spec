@@ -5,7 +5,7 @@
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_with	pwquality	# password quality checking
 %bcond_without	python		# Python binding
-%bcond_without	tests
+%bcond_without	tests		# "make check" run
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
