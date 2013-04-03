@@ -5,17 +5,18 @@
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_with	pwquality	# password quality checking
 %bcond_without	python		# Python binding
+%bcond_without	tests
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.6.0
+Version:	1.6.1
 Release:	1
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	99002ac59a65ea371e7a98200943cb80
+# Source0-md5:	f374d11e3b0e7ca0f805756fd02e34ff
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
@@ -201,6 +202,8 @@ mv src/cryptsetup cryptsetup-initrd
 	%{?with_python:--enable-python} \
 	%{?with_pwquality:--with-pwquality}
 %{__make}
+
+%{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
