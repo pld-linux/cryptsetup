@@ -10,13 +10,13 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.6.1
+Version:	1.6.2
 Release:	1
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	f374d11e3b0e7ca0f805756fd02e34ff
+# Source0-md5:	cd834da49fbe92dd66df02cc5c61280f
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
@@ -221,7 +221,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/initrd
 install -p cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %endif
 
-%{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.{la,a}}
+%{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.la}
 
 %find_lang %{name}
 
