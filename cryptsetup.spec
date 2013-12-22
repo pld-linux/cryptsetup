@@ -1,4 +1,3 @@
-# TODO: BR libgcrypt >= 1.6.0 when released (to use gcrypt PBKDF2)
 #
 # Conditonal build:
 %bcond_with	initrd		# don't build initrd version
@@ -10,25 +9,27 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.6.2
+Version:	1.6.3
 Release:	1
 License:	GPL v2
 Group:		Base
 # Source0Download: http://code.google.com/p/cryptsetup/downloads/list
 Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	cd834da49fbe92dd66df02cc5c61280f
+# Source0-md5:	a7aeb549a543eeac433eadfb6bc67837
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
-BuildRequires:	automake
-BuildRequires:	device-mapper-devel >= 1.02.03
+BuildRequires:	automake >= 1:1.12
+BuildRequires:	device-mapper-devel >= 1.02.27
 BuildRequires:	gettext-devel >= 0.15
-BuildRequires:	libgcrypt-devel >= 1.1.42
+BuildRequires:	libgcrypt-devel >= 1.6.0
+BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
+BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
 %if %{with python}
 BuildRequires:	python-devel >= 1:2.4
@@ -39,12 +40,12 @@ BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
 BuildRequires:	device-mapper-dietlibc >= 1.02.27
 BuildRequires:	dietlibc-static
-BuildRequires:	libgcrypt-dietlibc >= 1.1.42
+BuildRequires:	libgcrypt-dietlibc >= 1.6.0
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
 	%else
 BuildRequires:	device-mapper-static >= 1.02.27
-BuildRequires:	libgcrypt-static >= 1.1.42
+BuildRequires:	libgcrypt-static >= 1.6.0
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
@@ -52,7 +53,7 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
-Requires:	libgcrypt >= 1.1.42
+Requires:	libgcrypt >= 1.6.0
 %{?with_pwquality:Requires:	libpwquality >= 1.0.0}
 Requires:	popt >= 1.7
 Provides:	cryptsetup-luks = %{version}-%{release}
@@ -92,8 +93,8 @@ Summary:	Header files for cryptsetup library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	device-mapper-devel >= 1.02.03
-Requires:	libgcrypt-devel >= 1.1.42
+Requires:	device-mapper-devel >= 1.02.27
+Requires:	libgcrypt-devel >= 1.6.0
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
 
@@ -233,7 +234,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog TODO
+%doc AUTHORS ChangeLog FAQ README TODO docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) %{_sbindir}/veritysetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
