@@ -9,20 +9,19 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.6.3
-Release:	2
+Version:	1.6.4
+Release:	1
 License:	GPL v2
 Group:		Base
-# Source0Download: http://code.google.com/p/cryptsetup/downloads/list
-Source0:	http://cryptsetup.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	a7aeb549a543eeac433eadfb6bc67837
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v1.6/%{name}-%{version}.tar.xz
+# Source0-md5:	f68ce7b7f4be08449f3c8b114ed5accb
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
 BuildRequires:	gettext-devel >= 0.15
-BuildRequires:	libgcrypt-devel >= 1.6.0
+BuildRequires:	libgcrypt-devel >= 1.6.1
 BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
 BuildRequires:	libselinux-devel
@@ -35,17 +34,19 @@ BuildRequires:	popt-devel >= 1.7
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
 %endif
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 %if %{with initrd}
 BuildRequires:	libgpg-error-static
 	%if %{with dietlibc}
 BuildRequires:	device-mapper-dietlibc >= 1.02.27
 BuildRequires:	dietlibc-static
-BuildRequires:	libgcrypt-dietlibc >= 1.6.0
+BuildRequires:	libgcrypt-dietlibc >= 1.6.1
 BuildRequires:	libuuid-dietlibc
 BuildRequires:	popt-dietlibc
 	%else
 BuildRequires:	device-mapper-static >= 1.02.27
-BuildRequires:	libgcrypt-static >= 1.6.0
+BuildRequires:	libgcrypt-static >= 1.6.1
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static
 BuildRequires:	libuuid-static
@@ -53,7 +54,7 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
-Requires:	libgcrypt >= 1.6.0
+Requires:	libgcrypt >= 1.6.1
 %{?with_pwquality:Requires:	libpwquality >= 1.0.0}
 Requires:	popt >= 1.7
 Provides:	cryptsetup-luks = %{version}-%{release}
@@ -94,7 +95,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel >= 1.02.27
-Requires:	libgcrypt-devel >= 1.6.0
+Requires:	libgcrypt-devel >= 1.6.1
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
 
