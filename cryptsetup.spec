@@ -31,7 +31,7 @@ BuildRequires:	libuuid-devel
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
 %if %{with python}
-BuildRequires:	python-devel >= 1:2.4
+BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
 %endif
 BuildRequires:	tar >= 1:1.22
