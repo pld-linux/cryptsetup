@@ -20,7 +20,7 @@ URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
-BuildRequires:	gettext-devel >= 0.15
+BuildRequires:	gettext-tools >= 0.15
 BuildRequires:	libgcrypt-devel >= 1.6.1
 BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
