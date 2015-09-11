@@ -16,7 +16,7 @@ Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v1.6/%{name}-%{version}.tar.xz
 # Source0-md5:	a04d97ca2874e98c112fddbe930b19de
 Patch0:		diet.patch
-URL:		http://code.google.com/p/cryptsetup/
+URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
