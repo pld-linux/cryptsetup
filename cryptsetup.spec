@@ -9,12 +9,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.6.7
+Version:	1.6.8
 Release:	1
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v1.6/%{name}-%{version}.tar.xz
-# Source0-md5:	918406eb5d2e2f5a7348c432ea9b1473
+# Source0-md5:	a04d97ca2874e98c112fddbe930b19de
 Patch0:		diet.patch
 URL:		http://code.google.com/p/cryptsetup/
 BuildRequires:	autoconf >= 2.67
@@ -177,6 +177,7 @@ CC="%{__cc}"
 	--cache-file=%{?configure_cache_file}%{!?configure_cache_file:configure}-initrd.cache \
 %endif
 	--disable-nls \
+	--disable-silent-rules \
 	--disable-shared \
 	--enable-static \
 	--enable-static-cryptsetup
@@ -200,6 +201,7 @@ mv src/cryptsetup cryptsetup-initrd
 
 %configure \
 	--enable-udev \
+	--disable-silent-rules \
 	--enable-static \
 	%{?with_python:--enable-python} \
 	%{?with_pwquality:--with-pwquality}
