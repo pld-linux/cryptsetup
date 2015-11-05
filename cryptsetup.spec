@@ -2,7 +2,8 @@
 # Conditonal build:
 %bcond_with	initrd		# don't build initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
-%bcond_with	pwquality	# password quality checking
+%bcond_with	passwdqc	# password quality checking via libpasswdqc [conflicts with pwquality]
+%bcond_with	pwquality	# password quality checking via libpwquality [conflicts with passwdqc]
 %bcond_without	python		# Python binding
 %bcond_without	tests		# "make check" run
 
@@ -28,6 +29,7 @@ BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
+%{?with_passwdqc:BuildRequires:	passwdqc-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
 %if %{with python}
@@ -203,8 +205,9 @@ mv src/cryptsetup cryptsetup-initrd
 	--enable-udev \
 	--disable-silent-rules \
 	--enable-static \
-	%{?with_python:--enable-python} \
-	%{?with_pwquality:--with-pwquality}
+	%{?with_passwdqc:--enable-passwdqc=/etc/passwdqc.conf} \
+	%{?with_pwquality:--enable-pwquality} \
+	%{?with_python:--enable-python}
 %{__make}
 
 %{?with_tests:%{__make} check}
