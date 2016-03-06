@@ -10,15 +10,13 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.7.0
-Release:	3
+Version:	1.7.1
+Release:	1
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v1.7/%{name}-%{version}.tar.xz
-# Source0-md5:	56c385fe87fc2b6873df4b7f89202d0f
+# Source0-md5:	e38da1c80088cbaaccf931ef61e726dc
 Patch0:		diet.patch
-Patch1:		0001-Set-skcipher-key-before-accept-call-in-kernel-crypto.patch
-Patch2:		0002-Fix-kernel-crypto-backend-to-set-key-before-accept-c.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
@@ -156,8 +154,6 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 %prep
 %setup -q
 %{?with_diet:%patch0 -p1}
-%patch1 -p1
-%patch2 -p1
 
 %{__rm} po/stamp-po
 
