@@ -10,18 +10,20 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	1.7.5
+Version:	2.0.3
 Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v1.7/%{name}-%{version}.tar.xz
-# Source0-md5:	d2d668223e795dcf750da44dc3e7076b
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.0/%{name}-%{version}.tar.xz
+# Source0-md5:	ea1c722f8d4c4e36427628b679b1f819
 Patch0:		diet.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
 BuildRequires:	gettext-tools >= 0.15
+BuildRequires:	json-c-devel
+BuildRequires:	libargon2-devel >= 20171227
 BuildRequires:	libgcrypt-devel >= 1.6.1
 BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
@@ -182,7 +184,9 @@ CC="%{__cc}"
 	--disable-silent-rules \
 	--disable-shared \
 	--enable-static \
-	--enable-static-cryptsetup
+	--enable-static-cryptsetup \
+	--with-tmpfilesdir=%{systemdtmpfilesdir} \
+	--with-luks2-lock-path=/var/run/%{name}
 
 %{__make} -C lib
 
@@ -205,15 +209,20 @@ mv src/cryptsetup cryptsetup-initrd
 	--enable-udev \
 	--disable-silent-rules \
 	--enable-static \
+	--enable-libargon2 \
 	%{?with_passwdqc:--enable-passwdqc=/etc/passwdqc.conf} \
 	%{?with_pwquality:--enable-pwquality} \
-	%{?with_python:--enable-python}
+	%{?with_python:--enable-python} \
+	--with-tmpfilesdir=%{systemdtmpfilesdir} \
+	--with-luks2-lock-path=/var/run/%{name}
 %{__make}
 
 %{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+install -d $RPM_BUILD_ROOT/var/run/cryptsetup
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -242,11 +251,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog FAQ README TODO docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
 %attr(755,root,root) %{_sbindir}/cryptsetup
+%attr(755,root,root) %{_sbindir}/cryptsetup-reencrypt
+%attr(755,root,root) %{_sbindir}/integritysetup
 %attr(755,root,root) %{_sbindir}/veritysetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.4
+%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.12
 %{_mandir}/man8/cryptsetup.8*
+%{_mandir}/man8/cryptsetup-reencrypt.8*
+%{_mandir}/man8/integritysetup.8*
 %{_mandir}/man8/veritysetup.8*
+%{systemdtmpfilesdir}/cryptsetup.conf
+%attr(700,root,root) %dir /var/run/cryptsetup
 
 %files devel
 %defattr(644,root,root,755)
