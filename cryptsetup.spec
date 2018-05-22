@@ -11,7 +11,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	2.0.3
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.0/%{name}-%{version}.tar.xz
@@ -99,6 +99,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel >= 1.02.27
+Requires:	libargon2-devel >= 20171227
 Requires:	libgcrypt-devel >= 1.6.1
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
