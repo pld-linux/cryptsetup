@@ -10,20 +10,21 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.0.3
-Release:	2
+Version:	2.0.4
+Release:	1
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.0/%{name}-%{version}.tar.xz
-# Source0-md5:	ea1c722f8d4c4e36427628b679b1f819
+# Source0-md5:	ed42b31f67d05b05e392d1943d467b8d
 Patch0:		diet.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
-BuildRequires:	gettext-tools >= 0.15
+BuildRequires:	gettext-tools >= 0.18.3
 BuildRequires:	json-c-devel
 BuildRequires:	libargon2-devel >= 20171227
+BuildRequires:	libblkid-devel
 BuildRequires:	libgcrypt-devel >= 1.6.1
 BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
@@ -207,13 +208,13 @@ mv src/cryptsetup cryptsetup-initrd
 %endif
 
 %configure \
-	--enable-udev \
-	--disable-silent-rules \
-	--enable-static \
 	--enable-libargon2 \
 	%{?with_passwdqc:--enable-passwdqc=/etc/passwdqc.conf} \
 	%{?with_pwquality:--enable-pwquality} \
 	%{?with_python:--enable-python} \
+	--disable-silent-rules \
+	--enable-static \
+	--enable-udev \
 	--with-tmpfilesdir=%{systemdtmpfilesdir} \
 	--with-luks2-lock-path=/var/run/%{name}
 %{__make}
@@ -250,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog FAQ README TODO docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
+%doc AUTHORS FAQ README TODO docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) %{_sbindir}/cryptsetup-reencrypt
 %attr(755,root,root) %{_sbindir}/integritysetup
