@@ -10,12 +10,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.0.4
+Version:	2.0.5
 Release:	1
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.0/%{name}-%{version}.tar.xz
-# Source0-md5:	ed42b31f67d05b05e392d1943d467b8d
+# Source0-md5:	348f901b3e5849310c9d9f7d75b69d73
 Patch0:		diet.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
