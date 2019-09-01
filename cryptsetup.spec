@@ -2,20 +2,20 @@
 # Conditonal build:
 %bcond_with	initrd		# don't build initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
+%bcond_with	gcrypt		# use gcrypt for crypto (instead of openssl)
 %bcond_with	passwdqc	# password quality checking via libpasswdqc [conflicts with pwquality]
 %bcond_with	pwquality	# password quality checking via libpwquality [conflicts with passwdqc]
-%bcond_without	python		# Python binding
 %bcond_without	tests		# "make check" run
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.0.6
+Version:	2.1.0
 Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.0/%{name}-%{version}.tar.xz
-# Source0-md5:	ec03e09cbe978a19fa6d6194ac642bae
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.1/%{name}-%{version}.tar.xz
+# Source0-md5:	41d8b985ef69242852b93e95d53e8e28
 Patch0:		diet.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
@@ -25,20 +25,17 @@ BuildRequires:	gettext-tools >= 0.18.3
 BuildRequires:	json-c-devel
 BuildRequires:	libargon2-devel >= 20171227
 BuildRequires:	libblkid-devel
-BuildRequires:	libgcrypt-devel >= 1.6.1
+%{?with_gcrypt:BuildRequires:	libgcrypt-devel >= 1.6.1}
 BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
+%{!?with_gcrypt:BuildRequires:	openssl-devel >= 0.9.8}
 %{?with_passwdqc:BuildRequires:	passwdqc-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
-%if %{with python}
-BuildRequires:	python-devel >= 1:2.6
-BuildRequires:	rpm-pythonprov
-%endif
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 %if %{with initrd}
@@ -59,12 +56,13 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
-Requires:	libgcrypt >= 1.6.1
+%{?with_gcrypt:Requires:	libgcrypt >= 1.6.1}
 %{?with_pwquality:Requires:	libpwquality >= 1.0.0}
 Requires:	popt >= 1.7
 Provides:	cryptsetup-luks = %{version}-%{release}
 Obsoletes:	cryptsetup-luks < 1.4.1-2
 %{!?with_initrd:Obsoletes:	cryptsetup-initrd < %{version}-%{release}}
+Obsoletes:	python-pycryptsetup < 2.1.0
 Conflicts:	udev < 1:118-1
 Conflicts:	udev-core < 1:115
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -101,7 +99,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel >= 1.02.27
 Requires:	libargon2-devel >= 20171227
-Requires:	libgcrypt-devel >= 1.6.1
+%{?with_gcrypt:Requires:	libgcrypt-devel >= 1.6.1}
+%{!?with_gcrypt:Requires:	openssl-devel >= 0.9.8}
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
 
@@ -124,19 +123,6 @@ Static version of cryptsetup library.
 
 %description static -l pl.UTF-8
 Statyczna wersja biblioteki cryptsetup.
-
-%package -n python-pycryptsetup
-Summary:	Python binding for cryptsetup library
-Summary(pl.UTF-8):	Wiązanie Pythona do biblioteki cryptsetup
-Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
-%pyrequires_eq	python-libs
-
-%description -n python-pycryptsetup
-Python binding for cryptsetup library.
-
-%description -n python-pycryptsetup -l pl.UTF-8
-Wiązanie Pythona do biblioteki cryptsetup.
 
 %package initrd
 Summary:	LUKS for dm-crypt implemented in cryptsetup - initrd version
@@ -183,12 +169,13 @@ CC="%{__cc}"
 	--cache-file=%{?configure_cache_file}%{!?configure_cache_file:configure}-initrd.cache \
 %endif
 	--disable-nls \
-	--disable-silent-rules \
 	--disable-shared \
+	--disable-silent-rules \
 	--enable-static \
 	--enable-static-cryptsetup \
-	--with-tmpfilesdir=%{systemdtmpfilesdir} \
-	--with-luks2-lock-path=/var/run/%{name}
+	--with-crypto-backend=gcrypt \
+	--with-luks2-lock-path=/var/run/%{name} \
+	--with-tmpfilesdir=%{systemdtmpfilesdir}
 
 %{__make} -C lib
 
@@ -211,12 +198,12 @@ mv src/cryptsetup cryptsetup-initrd
 	--enable-libargon2 \
 	%{?with_passwdqc:--enable-passwdqc=/etc/passwdqc.conf} \
 	%{?with_pwquality:--enable-pwquality} \
-	%{?with_python:--enable-python} \
 	--disable-silent-rules \
 	--enable-static \
 	--enable-udev \
-	--with-tmpfilesdir=%{systemdtmpfilesdir} \
-	--with-luks2-lock-path=/var/run/%{name}
+	%{?with_gcrypt:--with-crypto-backend=gcrypt} \
+	--with-luks2-lock-path=/var/run/%{name} \
+	--with-tmpfilesdir=%{systemdtmpfilesdir}
 %{__make}
 
 %{?with_tests:%{__make} check}
@@ -238,8 +225,6 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
 install -p cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %endif
-
-%{?with_python:%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pycryptsetup.la}
 
 %find_lang %{name}
 
@@ -275,12 +260,6 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libcryptsetup.a
-
-%if %{with python}
-%files -n python-pycryptsetup
-%defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/pycryptsetup.so
-%endif
 
 %if %{with initrd}
 %files initrd
