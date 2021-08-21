@@ -10,12 +10,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.3.6
+Version:	2.4.0
 Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.3/%{name}-%{version}.tar.xz
-# Source0-md5:	504d1ab22cbc4d1a59a8d8c7ee5ed3bf
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.4/%{name}-%{version}.tar.xz
+# Source0-md5:	1d7afa6bd50e9bbfcbc5649c8569cc1a
 Patch0:		diet.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
@@ -217,9 +217,11 @@ install -d $RPM_BUILD_ROOT/var/run/cryptsetup
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/%{_lib}
-mv -f $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.* $RPM_BUILD_ROOT/%{_lib}
+%{__mv} $RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so.* $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/cryptsetup/libcryptsetup-*.{la,a}
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
@@ -236,15 +238,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS FAQ README TODO docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
+%doc AUTHORS FAQ README.md docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
 %attr(755,root,root) %{_sbindir}/cryptsetup
 %attr(755,root,root) %{_sbindir}/cryptsetup-reencrypt
+%attr(755,root,root) %{_sbindir}/cryptsetup-ssh
 %attr(755,root,root) %{_sbindir}/integritysetup
 %attr(755,root,root) %{_sbindir}/veritysetup
 %attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.12
+%dir %{_libdir}/cryptsetup
+%attr(755,root,root) %{_libdir}/cryptsetup/libcryptsetup-token-ssh.so
 %{_mandir}/man8/cryptsetup.8*
 %{_mandir}/man8/cryptsetup-reencrypt.8*
+%{_mandir}/man8/cryptsetup-ssh.8*
 %{_mandir}/man8/integritysetup.8*
 %{_mandir}/man8/veritysetup.8*
 %{systemdtmpfilesdir}/cryptsetup.conf
