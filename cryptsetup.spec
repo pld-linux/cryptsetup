@@ -21,7 +21,7 @@ URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
 BuildRequires:	device-mapper-devel >= 1.02.27
-BuildRequires:	gettext-tools >= 0.18.3
+BuildRequires:	gettext-tools >= 0.21
 BuildRequires:	json-c-devel
 BuildRequires:	libargon2-devel >= 20171227
 BuildRequires:	libblkid-devel
@@ -30,6 +30,7 @@ BuildRequires:	libgpg-error-devel
 %{?with_pwquality:BuildRequires:	libpwquality-devel >= 1.0.0}
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
+BuildRequires:	libssh-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
 %{!?with_gcrypt:BuildRequires:	openssl-devel >= 0.9.8}
