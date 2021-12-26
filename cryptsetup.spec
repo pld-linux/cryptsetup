@@ -11,7 +11,7 @@ Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
 Version:	2.4.2
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.4/%{name}-%{version}.tar.xz
@@ -57,6 +57,7 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
+Requires:	device-mapper >= 1.02.27
 %{?with_gcrypt:Requires:	libgcrypt >= 1.6.1}
 %{?with_pwquality:Requires:	libpwquality >= 1.0.0}
 Requires:	popt >= 1.7
