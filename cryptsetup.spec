@@ -10,12 +10,12 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.4.3
-Release:	2
+Version:	2.5.0
+Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.4/%{name}-%{version}.tar.xz
-# Source0-md5:	2303d57e78d4977344188a46e125095c
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.5/%{name}-%{version}.tar.xz
+# Source0-md5:	0813f29b74f137d566aed14d9d18e58e
 Patch0:		diet.patch
 Patch1:		no_pty_tests.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
@@ -38,6 +38,7 @@ BuildRequires:	libuuid-devel
 %{?with_passwdqc:BuildRequires:	passwdqc-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
+BuildRequires:	ruby-asciidoctor
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 %if %{with initrd}
@@ -242,9 +243,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS FAQ README.md docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
+%doc AUTHORS FAQ.md README.md docs/{ChangeLog.old,v*-ReleaseNotes,on-disk-format.pdf}
 %attr(755,root,root) %{_sbindir}/cryptsetup
-%attr(755,root,root) %{_sbindir}/cryptsetup-reencrypt
 %attr(755,root,root) %{_sbindir}/cryptsetup-ssh
 %attr(755,root,root) %{_sbindir}/integritysetup
 %attr(755,root,root) %{_sbindir}/veritysetup
@@ -253,8 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/cryptsetup
 %attr(755,root,root) %{_libdir}/cryptsetup/libcryptsetup-token-ssh.so
 %{_mandir}/man8/cryptsetup.8*
-%{_mandir}/man8/cryptsetup-reencrypt.8*
-%{_mandir}/man8/cryptsetup-ssh.8*
+%{_mandir}/man8/cryptsetup-*.8*
 %{_mandir}/man8/integritysetup.8*
 %{_mandir}/man8/veritysetup.8*
 %{systemdtmpfilesdir}/cryptsetup.conf

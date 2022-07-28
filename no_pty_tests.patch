@@ -1,11 +1,12 @@
---- cryptsetup-2.4.3/tests/Makefile.am.orig	2022-01-13 10:23:53.000000000 +0100
-+++ cryptsetup-2.4.3/tests/Makefile.am	2022-01-20 10:56:51.933912924 +0100
-@@ -27,7 +27,7 @@
- endif
+--- cryptsetup-2.5.0/tests/Makefile.am.orig	2022-07-28 18:24:24.149696769 +0200
++++ cryptsetup-2.5.0/tests/Makefile.am	2022-07-28 19:33:26.248465013 +0200
+@@ -24,8 +24,7 @@
+ 	unit-utils-crypt-test \
+ 	unit-wipe-test \
+ 	reencryption-compat-test \
+-	luks2-reencryption-test \
+-	luks2-reencryption-mangle-test
++	luks2-reencryption-test
  
- if REENCRYPT
--TESTS += reencryption-compat-test reencryption-compat-test2 luks2-reencryption-test luks2-reencryption-mangle-test
-+TESTS += reencryption-compat-test reencryption-compat-test2 luks2-reencryption-test
- endif
- 
- if INTEGRITYSETUP
+ if VERITYSETUP
+ TESTS += verity-compat-test
