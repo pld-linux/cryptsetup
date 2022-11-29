@@ -18,6 +18,7 @@ Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.6/%{name}-%{versio
 # Source0-md5:	8b67da403a2515dc75d40c42e8196e4e
 Patch0:		diet.patch
 Patch1:		no_pty_tests.patch
+Patch2:		%{name}-sh.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
@@ -102,8 +103,11 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	device-mapper-devel >= 1.02.27
+Requires:	json-c-devel
 Requires:	libargon2-devel >= 20171227
+Requires:	libblkid-devel
 %{?with_gcrypt:Requires:	libgcrypt-devel >= 1.6.1}
+Requires:	libuuid-devel
 %{!?with_gcrypt:Requires:	openssl-devel >= 0.9.8}
 Provides:	cryptsetup-luks-devel = %{version}-%{release}
 Obsoletes:	cryptsetup-luks-devel < 1.4.1-2
@@ -149,6 +153,7 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 %setup -q
 %{?with_diet:%patch0 -p1}
 %patch1 -p1
+%patch2 -p1
 
 %{__rm} po/stamp-po
 
@@ -193,7 +198,7 @@ diet ${CC#ccache } %{rpmcppflags} %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -st
 	-lpopt -lgcrypt -lgpg-error -ldevmapper -luuid -lcompat
 %else
 %{__make} -C src
-mv src/cryptsetup cryptsetup-initrd
+%{__mv} src/cryptsetup cryptsetup-initrd
 %endif
 
 %{__make} clean

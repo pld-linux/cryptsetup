@@ -1,0 +1,25 @@
+--- cryptsetup-2.6.0/configure.ac.orig	2022-11-29 17:56:55.636600523 +0100
++++ cryptsetup-2.6.0/configure.ac	2022-11-29 18:02:49.904681288 +0100
+@@ -634,16 +634,16 @@ dnl Set Requires.private for libcryptset
+ dnl pwquality is used only by tools
+ PKGMODULES="uuid devmapper json-c"
+ case $with_crypto_backend in
+-	gcrypt)  PKGMODULES+=" libgcrypt" ;;
+-	openssl) PKGMODULES+=" openssl" ;;
+-	nss)     PKGMODULES+=" nss" ;;
+-	nettle)  PKGMODULES+=" nettle" ;;
++	gcrypt)  PKGMODULES="$PKGMODULES libgcrypt" ;;
++	openssl) PKGMODULES="$PKGMODULES openssl" ;;
++	nss)     PKGMODULES="$PKGMODULES nss" ;;
++	nettle)  PKGMODULES="$PKGMODULES nettle" ;;
+ esac
+ if test "x$enable_libargon2" = "xyes"; then
+-	PKGMODULES+=" libargon2"
++	PKGMODULES="$PKGMODULES libargon2"
+ fi
+ if test "x$enable_blkid" = "xyes"; then
+-	PKGMODULES+=" blkid"
++	PKGMODULES="$PKGMODULES blkid"
+ fi
+ AC_SUBST([PKGMODULES])
+ dnl ==========================================================================
