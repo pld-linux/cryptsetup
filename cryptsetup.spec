@@ -60,6 +60,7 @@ BuildRequires:	popt-static
 BuildRequires:	udev-static
 	%endif
 %endif
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	device-mapper >= 1.02.27
 %{?with_gcrypt:Requires:	libgcrypt >= 1.6.1}
 %{?with_pwquality:Requires:	libpwquality >= 1.0.0}
@@ -97,11 +98,22 @@ użytkownikowi przenosić lub migrować dane w sposób przezroczysty.
 Ten pakiet zawiera implementację LUKS dla dm-crytpa zaimplementowaną w
 cryptsetup.
 
+%package libs
+Summary:	cryptsetup shared library
+Summary(pl.UTF-8):	Biblioteka współdzielona cryptsetup
+Group:		Libraries
+
+%description libs
+cryptsetup shared library.
+
+%description libs -l pl.UTF-8
+Biblioteka współdzielona cryptsetup.
+
 %package devel
 Summary:	Header files for cryptsetup library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki cryptsetup
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	device-mapper-devel >= 1.02.27
 Requires:	json-c-devel
 Requires:	libargon2-devel >= 20171227
@@ -243,8 +255,8 @@ install -p cryptsetup-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/cryptsetup
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -253,8 +265,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/cryptsetup-ssh
 %attr(755,root,root) %{_sbindir}/integritysetup
 %attr(755,root,root) %{_sbindir}/veritysetup
-%attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.12
 %dir %{_libdir}/cryptsetup
 %attr(755,root,root) %{_libdir}/cryptsetup/libcryptsetup-token-ssh.so
 %{_mandir}/man8/cryptsetup.8*
@@ -263,6 +273,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/veritysetup.8*
 %{systemdtmpfilesdir}/cryptsetup.conf
 %attr(700,root,root) %dir /var/run/cryptsetup
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) /%{_lib}/libcryptsetup.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libcryptsetup.so.12
 
 %files devel
 %defattr(644,root,root,755)
