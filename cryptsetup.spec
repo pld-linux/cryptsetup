@@ -5,6 +5,7 @@
 %bcond_with	gcrypt		# use gcrypt for crypto (instead of openssl)
 %bcond_with	passwdqc	# password quality checking via libpasswdqc [conflicts with pwquality]
 %bcond_with	pwquality	# password quality checking via libpwquality [conflicts with passwdqc]
+%bcond_without	static_libs	# static library
 %bcond_without	tests		# "make check" run
 
 Summary:	LUKS for dm-crypt implemented in cryptsetup
@@ -39,6 +40,7 @@ BuildRequires:	linux-libc-headers >= 7:6.4
 %{?with_passwdqc:BuildRequires:	passwdqc-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.7
+BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	ruby-asciidoctor
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -220,7 +222,7 @@ diet ${CC#ccache } %{rpmcppflags} %{rpmcflags} %{rpmldflags} -Os -I. -I./lib -st
 	%{?with_passwdqc:--enable-passwdqc=/etc/passwdqc.conf} \
 	%{?with_pwquality:--enable-pwquality} \
 	--disable-silent-rules \
-	--enable-static \
+	%{__enable_disable static_libs static} \
 	--enable-udev \
 	%{?with_gcrypt:--with-crypto-backend=gcrypt} \
 	--with-luks2-lock-path=/var/run/%{name} \
@@ -242,7 +244,8 @@ install -d $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libcryptsetup.so.*.*.*) \
 	$RPM_BUILD_ROOT%{_libdir}/libcryptsetup.so
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/cryptsetup/libcryptsetup-*.{la,a}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/cryptsetup/libcryptsetup-*.la
+%{?with_static_libs:%{__rm} $RPM_BUILD_ROOT%{_libdir}/cryptsetup/libcryptsetup-*.a}
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
@@ -285,9 +288,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libcryptsetup.h
 %{_pkgconfigdir}/libcryptsetup.pc
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libcryptsetup.a
+%endif
 
 %if %{with initrd}
 %files initrd
