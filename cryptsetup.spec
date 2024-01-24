@@ -10,15 +10,14 @@
 Summary:	LUKS for dm-crypt implemented in cryptsetup
 Summary(pl.UTF-8):	LUKS dla dm-crypta zaimplementowany w cryptsetup
 Name:		cryptsetup
-Version:	2.6.1
+Version:	2.7.0
 Release:	1
 License:	GPL v2
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.6/%{name}-%{version}.tar.xz
-# Source0-md5:	f9451ea928dc600eb34dd9f4d9ca34e5
+Source0:	https://www.kernel.org/pub/linux/utils/cryptsetup/v2.7/%{name}-%{version}.tar.xz
+# Source0-md5:	7210d45a19703bca547e8ba190278cb0
 Patch0:		diet.patch
 Patch1:		no_pty_tests.patch
-Patch2:		%{name}-sh.patch
 URL:		https://gitlab.com/cryptsetup/cryptsetup
 BuildRequires:	autoconf >= 2.67
 BuildRequires:	automake >= 1:1.12
@@ -35,6 +34,7 @@ BuildRequires:	libsepol-devel
 BuildRequires:	libssh-devel
 BuildRequires:	libtool >= 2:2.0
 BuildRequires:	libuuid-devel
+BuildRequires:	linux-libc-headers >= 7:6.4
 %{!?with_gcrypt:BuildRequires:	openssl-devel >= 0.9.8}
 %{?with_passwdqc:BuildRequires:	passwdqc-devel}
 BuildRequires:	pkgconfig
@@ -165,7 +165,6 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 %setup -q
 %{?with_diet:%patch0 -p1}
 %patch1 -p1
-%patch2 -p1
 
 %{__rm} po/stamp-po
 
