@@ -165,8 +165,8 @@ cryptsetup - wersję statycznie zlinkowaną dla initrd.
 
 %prep
 %setup -q
-%{?with_diet:%patch0 -p1}
-%patch1 -p1
+%{?with_diet:%patch -P0 -p1}
+%patch -P1 -p1
 
 %{__rm} po/stamp-po
 
